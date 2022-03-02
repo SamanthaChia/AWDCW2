@@ -42,6 +42,8 @@ class AccountManager(BaseUserManager):
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+
+        user.set_password(password)
         user.save(using=self._db)
         return user
 

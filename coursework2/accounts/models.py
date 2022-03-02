@@ -32,18 +32,18 @@ class AccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, full_name, password=None, **extra_fields):
+    def create_superuser(self, email, username, full_name, password, **extra_fields):
         user = self.create_user(
             email = self.normalize_email(email),
             username = username,
             full_name = full_name,
+            password=password,
             **extra_fields
         )
-        extra_fields.setdefault('is_admin', True)
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        user.set_password(password)
+        
+        user.is_admin=True
+        user.is_staff=True
+        user.is_superuser=True
         user.save(using=self._db)
         return user
 
@@ -78,8 +78,8 @@ class Account(AbstractBaseUser):
     def get_user_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index('profile_images/'+self.pk+'/'):]
 
-    def has_permission(self, perm, obj=None):
+    def has_perm(self, perm, obj=None):
         return self.is_admin
 
-    def has_module_permission(self, app_label):
+    def has_module_perms(self, app_label):
         return True

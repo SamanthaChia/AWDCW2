@@ -37,6 +37,8 @@ class Account(AbstractBaseUser):
     date_of_birth = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     profile_image = models.ImageField(max_length=256, upload_to=get_profile_image, null=True, blank=True, default=get_default_profile_image)
+    date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     hide_phone = models.BooleanField(default=True)
     hide_email = models.BooleanField(default=True)
 

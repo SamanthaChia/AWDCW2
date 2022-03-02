@@ -8,11 +8,31 @@ def get_profile_image(self):
 def get_default_profile_image():
     return "defaultImgs/default_profile_image.jpg"
 
-# Create your models here.
+class AccountManager(BaseUserManager):
+    def create_user(self, email, username, full_name, phone, password=None, **extra_fields):
+        if not email:
+            raise ValueError('An account needs an email address')
+        if not username:
+            raise ValueError('An account needs a username')
+        if not full_name:
+            raise ValueError('An account needs a name')
+            
+        user = self.model(
+            email = self.normalize_email(email),
+            username = username,
+            full_name = full_name,
+            phone = phone,
+            **extra_fields
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=256)
+    full_name = models.CharField(max_length=256)
     phone = models.CharField(max_length=30)
     date_of_birth = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -24,8 +44,8 @@ class Account(AbstractBaseUser):
     REQUIRED_FIELDS = ['name', 'username']
 
     # Retrieve 
-    def get_name(self):
-        return self.name
+    def get_fullname(self):
+        return self.full_name
 
     def get_username(self):
         return self.username

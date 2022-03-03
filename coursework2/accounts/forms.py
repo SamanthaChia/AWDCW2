@@ -3,12 +3,12 @@ from django import forms
 from django.contrib.auth import authenticate
 from .models import *
 
-class RegistrationForm(forms.ModelForm):
+class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=256)
     
     class Meta:
         model = Account
-        fields = ['email', 'username' ,'name', 'phone', 'date_of_birth', 'password1', 'password2']
+        fields = ('full_name','email','date_of_birth', 'username' , 'password1', 'password2')
 
         #validation, must have clean infront for django to know.
         def clean_email(self):

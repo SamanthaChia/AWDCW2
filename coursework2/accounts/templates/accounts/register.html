@@ -24,16 +24,11 @@
     border-bottom-left-radius: 0;
   }
   .form-signin input[type="password"] {
-    margin-bottom: -1px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-  .form-signin input[type="date"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  .form-signin input[type="tel"] {
+  .form-signin input[type="date"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -50,13 +45,11 @@
 				<div class="d-flex flex-column pb-3">
 				<img class="img-fluid mx-auto d-block" src="{% static 'defaultImgs/default_profile_image.jpg' %}" alt="default image logo" width="72" height="72">
 				</div>
-                <input type="text" name="fullname" id="inputName" class="form-control" placeholder="Full Name" required autofocus>
+                <input type="text" name="full_name" id="inputName" class="form-control" placeholder="Full Name" required autofocus>
 
 				<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
 
                 <input type="date" name="dob" id="inputDOB" class="form-control">
-
-                <input type="tel" id="phone" name="inputPhone" placeholder="12345678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
 
 				<input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required>
 
@@ -86,3 +79,5 @@
 		
 	</div>
 </div>
+
+{% endblock content %}

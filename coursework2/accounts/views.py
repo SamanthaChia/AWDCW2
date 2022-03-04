@@ -19,10 +19,11 @@ def user_register(request, *args, **kwargs):
 
     if request.method == 'POST':
         registration_form = RegistrationForm(request.POST)
-        print(registration_form.data)
+        # print(registration_form.data)
         if registration_form.is_valid():
-            #Creates account
+            # validates the data and creates the account
             registration_form.save()
+            print(registration_form.cleaned_data)
             messages.success(request,'Your account has been successfully created!')
         else:
             context['registration_form'] = registration_form

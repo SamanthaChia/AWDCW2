@@ -2,10 +2,11 @@ import email
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate , logout
+from django.contrib import messages
+from django.conf import settings
 
 from .forms import *
 from .models import *
-from django.contrib import messages
 
 # Create your views here.
 
@@ -60,3 +61,34 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("home")
+
+# Account view
+def user_view(request, *args, **kwargs):
+    context = {}
+    user_id = kwargs.get("user_id")
+    try:
+        account = Account.objects.get(pk=user_id)
+    except:
+        return HttpResponse("Something went wrong.")
+    if account:
+        context['id'] = account. id
+        context['username'] = account.username
+        context['email'] = account.email
+        context['date_of_birth'] = account.date_of_birth
+        context['profile_image'] = account.profile_image.url
+        context['hide_email'] = account.hide_email
+
+        # Define template variables
+        is_self = True
+        is_friend = False
+        user = request.user
+        if user.is_authenticated and user != account:
+            is_self = False
+        elif not user.is_authenticated:
+            is_self = False
+            
+        # Set the template variables to the values
+        context['is_self'] = is_self
+        context['is_friend'] = is_friend
+        context['BASE_URL'] = settings.BASE_URL
+        return render(request, "accounts/account.html", context)

@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from .models import *
 
+# For Registration
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=256)
     
@@ -34,3 +35,18 @@ class RegistrationForm(UserCreationForm):
             if password1 and password2 and password1 != password2:
                 raise forms.ValidationError("Passwords don't match")
             return password2
+
+# For Login
+class LoginForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())
+    
+    class Meta:
+        model = Account
+        fields = ('email', 'password')
+    
+    def clean(self):
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            password = self.cleaned_data['password']
+            if not authenticate(email=email, password=password):
+                raise forms.ValidationError("Not a valid login.")

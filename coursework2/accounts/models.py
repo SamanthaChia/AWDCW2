@@ -48,7 +48,7 @@ class AccountManager(BaseUserManager):
         return user
 
 class Account(AbstractBaseUser):
-    email = models.EmailField(verbose_name="email", max_length=60, unique=True)
+    email = models.EmailField(verbose_name="email", max_length=256, unique=True)
     username = models.CharField(max_length=20, unique=True)
     full_name = models.CharField(max_length=256)
     date_of_birth = models.DateField(blank=True, null=True)

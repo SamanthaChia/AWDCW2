@@ -2,6 +2,8 @@
 
 <!-- Header -->
 <div class="d-flex flex-column flex-lg-row p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+
+	<!-- MEDIUM+ SCREENS -->
 	<div class="d-none d-md-flex flex-row my-auto flex-grow-1 align-items-center">
 		<h5 class="mr-3 font-weight-normal justify-content-start">
 			<a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
@@ -36,11 +38,11 @@
 							</div>
 
 							<div class="btn-group dropleft">
-								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="rounded default img" width="40" height="40">
-								<div class="dropdown-menu" aria-labelledby="id_profile_links">
+								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="default img" width="40" height="40">
+								<!-- <div class="dropdown-menu" aria-labelledby="id_profile_links"> -->
 									<a class="dropdown-item" href="#">Account</a>
 									<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-								</div>
+								<!-- </div> -->
 							</div>
 						</div>
 						
@@ -52,4 +54,5 @@
 			</nav>
 		</div>
 	</div>
+	<!-- END MEDIUM+ SCREENS -->
 </div>

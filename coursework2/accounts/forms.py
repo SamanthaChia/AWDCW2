@@ -5,8 +5,7 @@ from .models import *
 
 # For Registration
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    date_of_birth = forms.DateField()
+    email = forms.EmailField(max_length=256)
 
     class Meta:
         model = Account

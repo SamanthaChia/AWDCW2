@@ -16,10 +16,8 @@ def user_register(request, *args, **kwargs):
         return HttpResponse("You are already authenticated as " + str(user.email))
     
     context = {}
-
     if request.method == 'POST':
         registration_form = RegistrationForm(request.POST)
-        # print(registration_form.data)
         if registration_form.is_valid():
             # validates the data and creates the account
             registration_form.save()

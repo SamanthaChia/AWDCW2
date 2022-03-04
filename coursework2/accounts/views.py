@@ -10,7 +10,7 @@ from django.contrib import messages
 # Create your views here.
 
 # Register View
-def register(request, *args, **kwargs):
+def user_register(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
         return HttpResponse("You are already authenticated as " + str(user.email))
@@ -55,7 +55,7 @@ def user_login(request):
         login_form = LoginForm()
     
     context['login_form'] = login_form
-    return render(request, "account/login.html", context)
+    return render(request, "accounts/login.html", context)
 
 # Logout view
 def user_logout(request):

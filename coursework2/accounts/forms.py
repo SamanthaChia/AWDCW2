@@ -6,10 +6,11 @@ from .models import *
 # For Registration
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=256)
-    
+    date_of_birth = forms.DateField()
+
     class Meta:
         model = Account
-        fields = ('full_name','email','date_of_birth', 'username' , 'password1', 'password2')
+        fields = ('email', 'username', 'full_name', 'date_of_birth' , 'password1', 'password2')
 
         #validation, must have clean infront for django to know.
         def clean_email(self):

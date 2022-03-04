@@ -1,7 +1,7 @@
 import email
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate , logout
 
 from .forms import *
 from .models import *
@@ -33,7 +33,7 @@ def register(request, *args, **kwargs):
     return render(request, 'accounts/register.html', context)
 
 # Login View
-def login(request):
+def user_login(request):
     context={}
 
     if request.method == 'POST':
@@ -56,3 +56,8 @@ def login(request):
     
     context['login_form'] = login_form
     return render(request, "account/login.html", context)
+
+# Logout view
+def user_logout(request):
+    logout(request)
+    return redirect("home")

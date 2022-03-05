@@ -77,10 +77,10 @@ class UpdateParticularsForm(forms.ModelForm):
         # apply database but not commiting it.
         account = super(UpdateParticularsForm, self).save(commit=False)    
         account.email = self.cleaned_data['email']
-        account.full_name = self.cleaned_data['ful_name']
+        account.full_name = self.cleaned_data['full_name']
         account.username = self.cleaned_data['username']
         account.date_of_birth = self.cleaned_data['date_of_birth']
-        account.profile_image = self.cleaned_data['profile_iumage']
+        account.profile_image = self.cleaned_data['profile_image']
         account.hide_email = self.cleaned_data['hide_email']
         if commit:
             account.save()

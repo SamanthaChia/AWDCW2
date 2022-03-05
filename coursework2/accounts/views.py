@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth import login, authenticate , logout
 from django.contrib import messages
 from django.conf import settings
+import datetime
 
 from .forms import *
 from .models import *
@@ -136,13 +137,15 @@ def edit_particulars(request, *args, **kwargs):
             update_form.save()
             return redirect("account:user_view", user_id=account.pk)
         else:
+            date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+
             update_form = UpdateParticularsForm(request.POST, instance=request.user,
                 initial={
                     "id": account.pk,
                     "email": account.email,
                     "username": account.username,
                     "full_name": account.full_name,
-                    "date_of_birth": account.date_of_birth,
+                    "date_of_birth": date_time_val,
                     "profile_image":account.profile_image,
                     "hide_email": account.hide_email,
                 }
@@ -150,13 +153,14 @@ def edit_particulars(request, *args, **kwargs):
             context['update_form'] = update_form
 
     else:
+        date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
         update_form = UpdateParticularsForm(
                     initial={
                         "id": account.pk,
                         "email": account.email,
                         "username": account.username,
                         "full_name": account.full_name,
-                        "date_of_birth": account.date_of_birth,
+                        "date_of_birth": date_time_val,
                         "profile_image":account.profile_image,
                         "hide_email": account.hide_email,
                     }

@@ -156,6 +156,7 @@
 		var base64str = image.substr(startIndex)
 		// decode a base64 string
 		var decoded = atob(base64str)
+		// if bigger 
 		if (decoded.length >= "{{DATA_UPLOAD_MAX_MEMORY_SIZE}}"){
 			return null
 		} 
@@ -163,7 +164,39 @@
 	}
 
 	function cropImage(image, x, y , width, height){
-		console.log(image)
+		base64ImageString = isImageSizeValid(image)
+		if(base64ImageString == null){
+			alert("Pleae upload an image smaller than 10mb")
+			document.getElementById("id_cancel").click()
+		} else{
+			var requestData = {
+				"csrfmiddlewaretoken": "{{csrf_token}}",
+				"image": base64ImageString,
+				"cropX": cropX,
+				"cropY": cropY,
+				"cropWidth": cropWidth,
+				"cropHeight": cropHeight,
+			}
+			
+			$.ajax({
+				type: 'POST',
+				dataType: "json",
+				url: "{% url 'account:crop_image' user_id=update_form.initial.id %}",
+				data: requestData,
+				timeout:10000,
+				success: function(data){
+					if(data.result == "success"){
+						window.location.reload()
+					} else if(data.result == "error"){
+						alert(data.exception)
+						window.location.reload()
+					}
+				},
+				error: function(data){
+					console.error("ERROR" , data)
+				}
+			})
+		}
 	}
 
 	function enableImageOverlay(){

@@ -141,6 +141,24 @@
             reader.readAsDataURL(input.files[0]);
         }
 	}
+
+	function setImageCropProperties(image, x, y, width, height){
+		imageFile = image
+		cropX = x
+		cropY = y
+		cropWidth = width
+		cropHeight = height
+
+	}
+
+	function isImageSizeValid(image){
+
+	}
+
+	function cropImage(image, x, y , width, height){
+		console.log(image)
+	}
+
 	function enableImageOverlay(){
 		var text = document.getElementById("id_text")
 		text.style.backgroundColor = "#0066ff"
@@ -228,7 +246,7 @@
 
 		var confirm = document.getElementById("id_confirm")
 		confirm.addEventListener("click", function(event){
-			enableImageOverlay()
+			cropImage(imageFile, cropX, cropY, cropWidth, cropHeight)
 		})
 
 		var cancel = document.getElementById("id_cancel")

@@ -71,7 +71,8 @@ def user_view(request, *args, **kwargs):
     except:
         return HttpResponse("Something went wrong.")
     if account:
-        context['id'] = account. id
+        context['id'] = account.id
+        context['full_name'] = account.full_name
         context['username'] = account.username
         context['email'] = account.email
         context['date_of_birth'] = account.date_of_birth

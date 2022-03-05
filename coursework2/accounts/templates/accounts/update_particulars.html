@@ -53,11 +53,14 @@
 		  			<input class="d-none" type="file" id="id_profile_image_file_selector" name="profile_image_file_selector" onchange="readURL(this)">
 			  		<h6 class="mt-4 field-heading">Email</h6>
 			  		<input type="email" name="email" id="id_input_email" class="form-control" placeholder="Email address" required autofocus value={{form.initial.email}}>
-			  		<h6 class="mt-4 field-heading">Username</h6>
+			  		<h6 class="mt-4 field-heading">Full Name</h6>
+			  		<input type="text" name="full_name" id="id_input_full_name" class="form-control" placeholder="Full name" required
+					value="{{form.initial.full_name}}">
+                      <h6 class="mt-4 field-heading">Username</h6>
 			  		<input type="text" name="username" id="id_input_username" class="form-control" placeholder="Username" required
 					value="{{form.initial.username}}">
                     <h6 class="mt-4 field-heading">Date Of Birth</h6>
-			  		<input type="text" name="date_of_birth" id="id_input_date_of_birth" class="form-control"
+			  		<input type="date" name="date_of_birth" id="id_input_date_of_birth" class="form-control"
 					value="{{form.initial.date_of_birth}}">
 					<div class="mt-4 checkbox">
 						<label>

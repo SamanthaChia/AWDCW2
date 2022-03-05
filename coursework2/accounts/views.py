@@ -1,13 +1,23 @@
 import email
+import datetime
+import os
+import cv2 #opencv
+import json
+import base64
+import requests
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth import login, authenticate , logout
 from django.contrib import messages
 from django.conf import settings
-import datetime
+from django.core.files.storage import default_storage, FileSystemStorage
+from django.core import files
 
 from .forms import *
 from .models import *
+
+TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
 # Create your views here.
 

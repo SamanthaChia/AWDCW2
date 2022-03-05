@@ -134,7 +134,6 @@ def edit_particulars(request, *args, **kwargs):
             return redirect("account:user_view", user_id=account.pk)
         else:
             update_form = UpdateParticularsForm(request.POST, instance=request.user,
-            
                 initial={
                     "id": account.pk,
                     "email": account.email,
@@ -145,3 +144,21 @@ def edit_particulars(request, *args, **kwargs):
                     "hide_email": account.hide_email,
                 }
             )
+            context['update_form'] = update_form
+
+    else:
+        update_form = UpdateParticularsForm(request.POST, instance=request.user,
+                    initial={
+                        "id": account.pk,
+                        "email": account.email,
+                        "username": account.username,
+                        "full_name": account.full_name,
+                        "date_of_birth": account.date_of_birth,
+                        "profile_image":account.profile_image,
+                        "hide_email": account.hide_email,
+                    }
+        )
+
+        context['update_form'] = update_form
+    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+    return render(request, "accounts/update_particulars.html", context)

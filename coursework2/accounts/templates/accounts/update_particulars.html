@@ -152,7 +152,14 @@
 	}
 
 	function isImageSizeValid(image){
-
+		var startIndex = image.indexOf("base64,") + 7
+		var base64str = image.substr(startIndex)
+		// decode a base64 string
+		var decoded = atob(base64str)
+		if (decoded.length >= "{{DATA_UPLOAD_MAX_MEMORY_SIZE}}"){
+			return null
+		} 
+		return base64str
 	}
 
 	function cropImage(image, x, y , width, height){

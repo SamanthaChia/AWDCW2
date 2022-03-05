@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # profile_images file will be saved in media_cdn separated by pk of user
-def get_profile_image(self):
+def get_profile_image(self, filename):
     return 'profile_images/'+ self.pk + '/"profile_image.png"'
 
 def get_default_profile_image():

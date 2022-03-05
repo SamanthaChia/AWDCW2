@@ -134,10 +134,15 @@ def edit_particulars(request, *args, **kwargs):
     if request.method == "POST":
         update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
         if update_form.is_valid():
+            #delete old profile image so keep the name
+            # account.profile_image.delete()
             update_form.save()
             return redirect("account:user_view", user_id=account.pk)
         else:
-            date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+            if(account.date_of_birth == None ):
+                date_time_val = account.date_of_birth
+            else:
+                date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
 
             update_form = UpdateParticularsForm(request.POST, instance=request.user,
                 initial={
@@ -153,7 +158,11 @@ def edit_particulars(request, *args, **kwargs):
             context['update_form'] = update_form
 
     else:
-        date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+        if(account.date_of_birth == None):
+            date_time_val = account.date_of_birth
+        else:
+            date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+        
         update_form = UpdateParticularsForm(
                     initial={
                         "id": account.pk,

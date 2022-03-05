@@ -236,5 +236,8 @@ def crop_image(request, *args, **kwargs):
             cv2.imwrite(url, crop_img)
             user.profile_image.delete()
 
+            user.profile_image.save("profile_image.png", files.File(open(url, 'rb')))
+            user.save()
+
         except Exception as e:
             raise e

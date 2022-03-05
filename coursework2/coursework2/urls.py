@@ -19,11 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 
-from accounts.views import(
-    user_register,
-    user_login,
-    user_logout
-)
+from accounts.views import *
 
 urlpatterns = [
     path('', include('base.urls'), name="home"),
@@ -32,6 +28,7 @@ urlpatterns = [
     path('register/', user_register, name="register"),
     path('login/', user_login, name="login"),
     path('logout/', user_logout, name="logout"),
+    path('search/', user_search, name="search"),
     
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='password/password_change.html'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password/password_change_done.html'), name='password_change_done'),

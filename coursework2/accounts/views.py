@@ -135,7 +135,7 @@ def edit_particulars(request, *args, **kwargs):
         update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
         if update_form.is_valid():
             #delete old profile image so keep the name
-            # account.profile_image.delete()
+            account.profile_image.delete()
             update_form.save()
             return redirect("account:user_view", user_id=account.pk)
         else:

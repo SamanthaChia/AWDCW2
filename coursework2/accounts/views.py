@@ -132,3 +132,16 @@ def edit_particulars(request, *args, **kwargs):
         if update_form.is_valid():
             update_form.save()
             return redirect("account:user_view", user_id=account.pk)
+        else:
+            update_form = UpdateParticularsForm(request.POST, instance=request.user,
+            
+                initial={
+                    "id": account.pk,
+                    "email": account.email,
+                    "username": account.username,
+                    "full_name": account.full_name,
+                    "date_of_birth": account.date_of_birth,
+                    "profile_image":account.profile_image,
+                    "hide_email": account.hide_email,
+                }
+            )

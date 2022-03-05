@@ -56,3 +56,32 @@ class UpdateParticularsForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = ('email', 'full_name', 'username', 'date_of_birth', 'profile_image', 'hide_email')
+
+    def clean_email(self):
+                email = self.cleaned_data.get("email").lower()
+                try:
+                    account = Account.objects.get(email=email)
+                except Account.DoesNotExist:
+                    return email
+                raise forms.ValidationError('Email "%s" is alreade in use' % account)
+
+    def clean_username(self):
+                username = self.cleaned_data.get("username")
+                try:
+                    account = Account.objects.get(username=username)
+                except Account.DoesNotExist:
+                    return username
+                raise forms.ValidationError('Username "%s" is alreade in use' % account)
+
+    def save(self, commit=True):
+        # apply database but not commiting it.
+        account = super(UpdateParticularsForm, self).save(commit=False)    
+        account.email = self.cleaned_data['email']
+        account.full_name = self.cleaned_data['ful_name']
+        account.username = self.cleaned_data['username']
+        account.date_of_birth = self.cleaned_data['date_of_birth']
+        account.profile_image = self.cleaned_data['profile_iumage']
+        account.hide_email = self.cleaned_data['hide_email']
+        if commit:
+            account.save()
+        return account

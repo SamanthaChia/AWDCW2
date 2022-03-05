@@ -217,6 +217,7 @@ def crop_image(request, *args, **kwargs):
     if request.POST and user.is_authenticated:
         try:
             imageString = request.POST.get("image")
+            # user upload image, we take image and convert it into base 64 String
             url = save_temp_profile_image_from_base64String(imageString, user)
             # load image
             img = cv2.imread(url)
@@ -239,5 +240,11 @@ def crop_image(request, *args, **kwargs):
             user.profile_image.save("profile_image.png", files.File(open(url, 'rb')))
             user.save()
 
+            payload['result'] = "success"
+            payload['cropped_profile_image'] = user.profile_image.url
+
+            os.remove(url)
+
         except Exception as e:
-            raise e
+            payload['result'] = "error"
+            payload['exception'] = str(e)

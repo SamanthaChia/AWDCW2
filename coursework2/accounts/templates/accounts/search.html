@@ -63,7 +63,8 @@
 				</div>
 			</a>
 			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
-				{% if account.1 %}
+				<!-- Boolean to check if friends or not-->
+                {% if account.1 %}
 					<div class="d-flex flex-row friends-text-container p-3">
 						<p class="friends-text m-auto">
 							Friends 
@@ -82,6 +83,7 @@
 						</div>
 					{% endif %}
 				{% endif %}
+                <!-- if not friends but it is your own account -->
 				{% if account.0 == request.user %}
 					<div class="d-flex flex-row friends-text-container p-3">
 						<p class="friends-text m-auto">

@@ -101,6 +101,25 @@
 	function readURL(imageUrl){
 		// TODO
 	}
+
+	function enableImageOverlay(){
+		var text = document.getElementById("id_text")
+		text.style.backgroundColor = "#0394fc"
+		text.style.color = "white"
+		text.style.fontSize = "16px"
+		text.style.padding = "16px 32px"
+		text.style.cursor = "pointer"
+
+		var profileImg = document.getElementById("id_profile_image")
+		profileImg.style.opacity = "1"
+		profileImg.style.display = "block"
+		profileImg.style.width = "100%"
+		profileImg.style.height = "auto"
+		profileImg.style.transition = ".5s ease"
+		profileImg.style.backfaceVisibility = "hidden"
+		profileImg.style.cursor = "pointer"
+
+	}
 </script>
 
 

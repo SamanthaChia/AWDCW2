@@ -60,7 +60,7 @@ class UpdateParticularsForm(forms.ModelForm):
     def clean_email(self):
                 email = self.cleaned_data.get("email").lower()
                 try:
-                    account = Account.objects.exclude(pk=self.instasnce.pk).get(email=email)
+                    account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
                 except Account.DoesNotExist:
                     return email
                 raise forms.ValidationError('Email "%s" is alreade in use' % account)
@@ -68,7 +68,7 @@ class UpdateParticularsForm(forms.ModelForm):
     def clean_username(self):
                 username = self.cleaned_data.get("username")
                 try:
-                    account = Account.objects.exclude(pk=self.instasnce.pk).get(username=username)
+                    account = Account.objects.exclude(pk=self.instance.pk).get(username=username)
                 except Account.DoesNotExist:
                     return username
                 raise forms.ValidationError('Username "%s" is alreade in use' % account)

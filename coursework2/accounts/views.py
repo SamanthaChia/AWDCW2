@@ -1,6 +1,6 @@
 import email
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth import login, authenticate , logout
 from django.contrib import messages
 from django.conf import settings
@@ -112,3 +112,16 @@ def user_search(request, *args, **kwargs):
             context['accounts'] = accounts
 
     return render(request, "accounts/search.html", context)
+
+# Edit Particulars View
+def edit_particulars(request, *args, **kwargs):
+    context = {}
+
+    # check if user is logged in
+    if not request.user.is_authenticated:
+        return redirect("login")
+    user_id = kwargs.get("user_id")
+    try:
+        account = Account.objects.get(pk=user_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Something went wrong")

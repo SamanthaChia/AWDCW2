@@ -1,9 +1,10 @@
 import email
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth import login, authenticate , logout
 from django.contrib import messages
 from django.conf import settings
+import datetime
 
 from .forms import *
 from .models import *
@@ -71,7 +72,8 @@ def user_view(request, *args, **kwargs):
     except:
         return HttpResponse("Something went wrong.")
     if account:
-        context['id'] = account. id
+        context['id'] = account.id
+        context['full_name'] = account.full_name
         context['username'] = account.username
         context['email'] = account.email
         context['date_of_birth'] = account.date_of_birth
@@ -111,3 +113,59 @@ def user_search(request, *args, **kwargs):
             context['accounts'] = accounts
 
     return render(request, "accounts/search.html", context)
+
+# Edit Particulars View
+def edit_particulars(request, *args, **kwargs):
+    context = {}
+
+    # check if user is logged in
+    if not request.user.is_authenticated:
+        return redirect("login")
+    user_id = kwargs.get("user_id")
+    try:
+        account = Account.objects.get(pk=user_id)
+    except Account.DoesNotExist:
+        return HttpResponse("Something went wrong")
+
+    # check if user editing own profile    
+    if account.pk != request.user.pk:
+        return HttpResponse("This is not your account, you are not allowed to edit this profile!")
+    
+    if request.method == "POST":
+        update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
+        if update_form.is_valid():
+            update_form.save()
+            return redirect("account:user_view", user_id=account.pk)
+        else:
+            date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+
+            update_form = UpdateParticularsForm(request.POST, instance=request.user,
+                initial={
+                    "id": account.pk,
+                    "email": account.email,
+                    "username": account.username,
+                    "full_name": account.full_name,
+                    "date_of_birth": date_time_val,
+                    "profile_image":account.profile_image,
+                    "hide_email": account.hide_email,
+                }
+            )
+            context['update_form'] = update_form
+
+    else:
+        date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
+        update_form = UpdateParticularsForm(
+                    initial={
+                        "id": account.pk,
+                        "email": account.email,
+                        "username": account.username,
+                        "full_name": account.full_name,
+                        "date_of_birth": date_time_val,
+                        "profile_image":account.profile_image,
+                        "hide_email": account.hide_email,
+                    }
+        )
+
+        context['update_form'] = update_form
+    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+    return render(request, "accounts/update_particulars.html", context)

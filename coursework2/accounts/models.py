@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # profile_images file will be saved in media_cdn separated by pk of user
-def get_profile_image(self):
-    return 'profile_images/'+ self.pk + '/"profile_image.png"'
+def get_profile_image(self, filename):
+    return 'profile_images/'+ str(self.pk) + '/"profile_image.png"'
 
 def get_default_profile_image():
     return "defaultImgs/default_profile_image.jpg"
@@ -74,7 +74,7 @@ class Account(AbstractBaseUser):
         return self.username
 
     def get_user_profile_image_filename(self):
-        return str(self.profile_image)[str(self.profile_image).index('profile_images/'+self.pk+'/'):]
+        return str(self.profile_image)[str(self.profile_image).index('profile_images/'+str(self.pk)+'/'):]
 
     def has_perm(self, perm, obj=None):
         return self.is_admin

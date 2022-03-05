@@ -125,8 +125,11 @@ def edit_particulars(request, *args, **kwargs):
         account = Account.objects.get(pk=user_id)
     except Account.DoesNotExist:
         return HttpResponse("Something went wrong")
+
+    # check if user editing own profile    
     if account.pk != request.user.pk:
         return HttpResponse("This is not your account, you are not allowed to edit this profile!")
+    
     if request.method == "POST":
         update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
         if update_form.is_valid():
@@ -147,7 +150,7 @@ def edit_particulars(request, *args, **kwargs):
             context['update_form'] = update_form
 
     else:
-        update_form = UpdateParticularsForm(request.POST, instance=request.user,
+        update_form = UpdateParticularsForm(
                     initial={
                         "id": account.pk,
                         "email": account.email,

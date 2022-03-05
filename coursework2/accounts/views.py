@@ -127,3 +127,8 @@ def edit_particulars(request, *args, **kwargs):
         return HttpResponse("Something went wrong")
     if account.pk != request.user.pk:
         return HttpResponse("This is not your account, you are not allowed to edit this profile!")
+    if request.method == "POST":
+        update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
+        if update_form.is_valid():
+            update_form.save()
+            return redirect("account:user_view", user_id=account.pk)

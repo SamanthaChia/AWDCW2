@@ -108,6 +108,6 @@ def user_search(request, *args, **kwargs):
             accounts = []
             for account in search_results:
                 accounts.append((account, False))
+            context['accounts'] = accounts
 
-
-    return render(request, "accounts/search.html")
+    return render(request, "accounts/search.html", context)

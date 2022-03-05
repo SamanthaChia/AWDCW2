@@ -92,3 +92,22 @@ def user_view(request, *args, **kwargs):
         context['is_friend'] = is_friend
         context['BASE_URL'] = settings.BASE_URL
         return render(request, "accounts/account.html", context)
+
+# Search Friends View
+def user_search(request, *args, **kwargs):
+    context = {}
+
+    if request.method == 'GET':
+        #searching for variable q
+        search_query = request.GET.get("q")
+        if len(search_query) > 0:
+            # filter to get multiple rows because can have more than 1 result
+            search_results = Account.objects.filter(full_name__icontains=search_query).filter(
+                username__icontains=search_query).filter(email__icontains=search_query).distinct()
+            # in array store account details and if you are friends or not
+            accounts = []
+            for account in search_results:
+                accounts.append((account, False))
+
+
+    return render(request, "accounts/search.html")

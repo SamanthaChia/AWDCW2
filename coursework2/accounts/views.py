@@ -125,3 +125,5 @@ def edit_particulars(request, *args, **kwargs):
         account = Account.objects.get(pk=user_id)
     except Account.DoesNotExist:
         return HttpResponse("Something went wrong")
+    if account.pk != request.user.pk:
+        return HttpResponse("This is not your account, you are not allowed to edit this profile!")

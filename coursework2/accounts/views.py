@@ -1,6 +1,7 @@
 import email
 import datetime
 import os
+from coursework2.friends.models import FriendsList
 import cv2 #opencv
 import json
 import base64
@@ -16,6 +17,7 @@ from django.core import files
 
 from .forms import *
 from .models import *
+from friends.friend_request_status import *
 
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
@@ -90,12 +92,29 @@ def user_view(request, *args, **kwargs):
         context['profile_image'] = account.profile_image.url
         context['hide_email'] = account.hide_email
 
-        # Define template variables
+        try:
+            # retrieve the friend list
+            friends_list = FriendsList.objects.get(user=account)
+        except FriendsList.DoesNotExist:
+            #if friend list does not exist create one
+            friends_list = FriendsList(user=account)
+            friends_list.save()
+        # retrieve all friends of the user
+        friends = friends_list.friends.all()
+        context['friends'] = friends
+
+
+        # Template vars
         is_self = True
         is_friend = False
         user = request.user
         if user.is_authenticated and user != account:
             is_self = False
+            # search through person friend list to check for user
+            if friends.filter(pk=user.id):
+                is_friend = True
+            else:
+                is_friend = False
         elif not user.is_authenticated:
             is_self = False
             

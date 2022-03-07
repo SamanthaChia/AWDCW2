@@ -107,7 +107,7 @@
 		<div class="d-flex flex-column mb-4">
 
 			<!-- THEM to YOU -->
-			{% if request_sent == 0 %}
+			{% if request_sent == 2 %}
 			<div class="card m-2 p-4">
 				<div class="d-flex flex-row align-items-center">
 					<span class="friend-text align-items-center mr-2">Accept Friend Request</span>
@@ -129,7 +129,7 @@
 						</div>
 						{% endif %}
 						<!-- No requests have been sent -->
-						{% if request_sent == -1 %}
+						{% if request_sent == 0 %}
 						<div class="d-flex flex-column align-items-center pt-4">
 							<button class="btn btn-primary" id="id_send_friend_request_btn">
 								Send Friend Request
@@ -150,31 +150,29 @@
 					</div>
 				{% endif %}
 				
-				<!-- TODO -->
 				<!-- Friend list link -->
 		  		<div class="d-flex flex-column pt-4">
 					<a href="#">
 						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 friends-icon">contact_page</span><span class="friend-text">Friends (0)</span>
+							<span class="material-icons mr-2 friends-icon">contact_page</span><span class="friend-text">Friends ({{friends|length}})</span>
 						</div>
 					</a>
 				</div>
 
 			</div>
 
-			<!-- TODO -->
-			{#% if friend_requests %#}
+			{% if friend_requests %}
 			<div class="card m-2 px-4 pb-4">
 				<!-- Friend requests -->
 		  		<div class="d-flex flex-column pt-4">
 					<a href="#">
 						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 person-add-icon">person_add</span><span class="friend-text">Friend Requests (0)</span>
+							<span class="material-icons mr-2 person-add-icon">person_add</span><span class="friend-text">Friend Requests ({{friend_requests|length}})</span>
 						</div>
 					</a>
 				</div>
 			</div>
-			{#% endif %#}
+			{% endif %}
 
 			{% if is_friend %}
 				<div class="d-flex flex-row align-items-center btn btn-primary m-2 px-4" onclick="createOrReturnPrivateChat('{{id}}')">

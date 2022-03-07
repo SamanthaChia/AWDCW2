@@ -13,9 +13,12 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.files.storage import default_storage, FileSystemStorage
 from django.core import files
+from friends.models import *
+
 
 from .forms import *
 from .models import *
+from friends.friend_request_status import *
 
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
@@ -90,19 +93,56 @@ def user_view(request, *args, **kwargs):
         context['profile_image'] = account.profile_image.url
         context['hide_email'] = account.hide_email
 
-        # Define template variables
+        try:
+            # retrieve the friend list
+            friends_list = FriendsList.objects.get(user=account)
+        except FriendsList.DoesNotExist:
+            #if friend list does not exist create one
+            friends_list = FriendsList(user=account)
+            friends_list.save()
+        # retrieve all friends of the user
+        friends = friends_list.friends.all()
+        context['friends'] = friends
+
+
+        # Template vars
         is_self = True
         is_friend = False
+        request_sent = FriendRequestStatus.no_request.value
+        friend_requests = None
         user = request.user
         if user.is_authenticated and user != account:
             is_self = False
+            # search through person friend list to check for user
+            if friends.filter(pk=user.id):
+                is_friend = True
+            else:
+                is_friend = False
+                # Friend send to you
+                if get_friend_request(sender=account, receiver=user) != False:
+                    request_sent = FriendRequestStatus.friend_sent.value
+                    # retrieve the primary key
+                    context['friend_request_id'] = get_friend_request(sender=account, receiver=user).pk
+                # You send to friend
+                elif get_friend_request(sender=user, receiver=account) != False:
+                    request_sent = FriendRequestStatus.user_sent.value
+                # no request
+                else:
+                    request_sent = FriendRequestStatus.no_request.value
         elif not user.is_authenticated:
             is_self = False
-            
+        # Looking at own account, check friend requests
+        else:
+            try:
+                friend_requests = FriendRequest.objects.filter(receiver=user, pending_request_status=True)
+            except:
+                pass
         # Set the template variables to the values
         context['is_self'] = is_self
         context['is_friend'] = is_friend
         context['BASE_URL'] = settings.BASE_URL
+        context['request_sent'] = request_sent
+        context['friend_requests'] = friend_requests
         return render(request, "accounts/account.html", context)
 
 # Search Friends View

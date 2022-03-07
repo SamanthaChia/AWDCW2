@@ -58,5 +58,5 @@ class FriendRequest(models.Model):
         self.save()
     
     def cancel_friend_request(self):
-        self.is_active = False
+        self.pending_request_status = False
         self.save()

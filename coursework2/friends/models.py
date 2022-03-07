@@ -11,4 +11,8 @@ class FriendsList(models.Model):
     def __str__(self):
         return self.user.username
 
-
+    def add_friend(self, friend):
+        if friend not in self.friendsList.all():
+            self.friendsList.add(friend)
+            self.save()
+    

@@ -1,7 +1,6 @@
 import email
 import datetime
 import os
-from coursework2.friends.models import FriendsList
 import cv2 #opencv
 import json
 import base64
@@ -14,6 +13,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.files.storage import default_storage, FileSystemStorage
 from django.core import files
+from friends.models import *
+
 
 from .forms import *
 from .models import *
@@ -107,6 +108,8 @@ def user_view(request, *args, **kwargs):
         # Template vars
         is_self = True
         is_friend = False
+        request_sent = FriendRequestStatus.no_request.value
+        friend_requests = None
         user = request.user
         if user.is_authenticated and user != account:
             is_self = False

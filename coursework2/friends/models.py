@@ -41,9 +41,18 @@ class FriendRequest(models.Model):
         return self.sender.username
 
     def accept_friend_request(self):
+        #get receiver friend list
         receiver_friend_list = FriendsList.objects.get(user=self.receiver)
         if receiver_friend_list:
             receiver_friend_list.add_friend(self.sender)
+            # get sender friend list
             sender_friend_list = FriendsList.objects.get(user=self.sender)
             if sender_friend_list:
                 sender_friend_list.add_friend(self.receiver)
+                self.pending_request_status = False
+                self.save()
+
+    def decline_friend_request(self):
+        # change the request status 
+        self.pending_request_status = False
+        self.save()

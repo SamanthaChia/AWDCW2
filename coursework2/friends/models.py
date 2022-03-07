@@ -16,3 +16,7 @@ class FriendsList(models.Model):
             self.friendsList.add(friend)
             self.save()
     
+    def remove_friend(self, friend):
+        if friend in self.friendsList.all():
+            self.friendsList.remove(friend)
+            self.save()

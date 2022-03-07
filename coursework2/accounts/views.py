@@ -115,6 +115,14 @@ def user_view(request, *args, **kwargs):
                 is_friend = True
             else:
                 is_friend = False
+                # Friend send to you
+                if get_friend_request(sender=account, receiver=user) != False:
+                    request_sent = FriendRequestStatus.friend_sent.value
+                    # retrieve the primary key
+                    context['friend_request_id'] = get_friend_request(sender=account, receiver=user).pk
+                    
+
+
         elif not user.is_authenticated:
             is_self = False
             

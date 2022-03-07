@@ -107,7 +107,7 @@
 		<div class="d-flex flex-column mb-4">
 
 			<!-- THEM to YOU -->
-			{% if request_sent == 0 %}
+			{% if request_sent == 2 %}
 			<div class="card m-2 p-4">
 				<div class="d-flex flex-row align-items-center">
 					<span class="friend-text align-items-center mr-2">Accept Friend Request</span>
@@ -129,7 +129,7 @@
 						</div>
 						{% endif %}
 						<!-- No requests have been sent -->
-						{% if request_sent == -1 %}
+						{% if request_sent == 0 %}
 						<div class="d-flex flex-column align-items-center pt-4">
 							<button class="btn btn-primary" id="id_send_friend_request_btn">
 								Send Friend Request

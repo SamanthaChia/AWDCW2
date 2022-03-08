@@ -131,3 +131,29 @@ def decline_friend_request(request, *args, **kwargs):
         payload['results'] = "error"
         payload['response'] = "Must be authenticated to decline friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")  
+
+def cancel_friend_request(request, *args, **kwargs):
+    user = request.user
+    payload = {}
+    if request.method == "POST" and user.is_authenticated:
+        user_id = request.POST.get("receiver_user_id")
+        if user_id:
+            user_getting_removed = FriendRequest.objects.get(pk=user_id)
+            try:
+                friend_requests = FriendRequest.objects.filter(sender=user, receiver=user_getting_removed, pending_request_status=True)
+            except Exception as e:
+                payload['response'] = "Friend request doesn't exist. Can't cancel"
+
+            if len(friend_requests) > 1:
+                for request in friend_requests:
+                    request.cancel_friend_request()
+                payload['response'] = "Cancelled friend request"
+            else:
+                friend_requests.first().cancel_friend_request()
+                payload['response'] = "Cancelled friend request"
+        else:
+            payload['response'] = "Can't cancel friend request"
+    else:
+        payload['response'] = "Must be authenticated to cancel friend request"
+            
+    return HttpResponse(json.dumps(payload), content_type="application/json")  

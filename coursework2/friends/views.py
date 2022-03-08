@@ -85,7 +85,7 @@ def accept_friend_request(request, *args, **kwargs):
         payload['response'] = "Must be authenticated to accept friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")            
 
-def remove_friend_request(request, *args, **kwargs):
+def remove_friend(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "POST" and user.is_authenticated:

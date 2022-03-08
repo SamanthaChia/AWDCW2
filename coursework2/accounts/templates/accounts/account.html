@@ -220,7 +220,8 @@
 	var sendFriendRequestBtn = document.getElementById("id_send_friend_request_btn")
 	if (sendFriendRequestBtn != null){
 		sendFriendRequestBtn.addEventListener("click", function(){
-			//sendFriendRequest("{{id}}", onFriendRequestSent)
+			// sendFriendRequest ajax, takes id for profile looking at, and then reload page
+			sendFriendRequest("{{id}}", onFriendRequestSent)
 		})
 	}
 
@@ -248,7 +249,7 @@
 	
 </script>
 
-{#% include 'snippets/send_friend_request.html' %#}
+{% include 'friends/ajaxScript/send_friend_request.html' %}
 {#% include 'snippets/accept_friend_request.html' %#}
 {#% include 'snippets/decline_friend_request.html' %#}
 {#% include 'snippets/cancel_friend_request.html' %#}

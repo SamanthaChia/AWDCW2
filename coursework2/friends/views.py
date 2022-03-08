@@ -61,3 +61,22 @@ def send_friend_request(request, *args, **kwargs):
         payload['response'] = "Unable to send request, user is not authenticated"
     
     return HttpResponse(json.dumps(payload), content_type="application/json")
+
+def accept_friend_request(request, *args, **kwargs):
+    user = request.user
+    payload = {}
+    if request.method == "GET" and user.is_authenticated:
+        friend_request_id = kwargs.get("friend_request_id")
+        if friend_request_id:
+            friend_request = FriendRequest.objects.get(pk=friend_request_id)
+            if friend_request.receiver == user:
+                if friend_request:
+                    friend_request.accept()
+                    payload['response'] = "Friend Request has been accepted"
+                else:
+                    payload['response'] = "Could not find friend request"
+        else:
+            payload['response'] = " Not able to accept friend request"
+    else:
+        payload['response'] = "Must be authenticated to accept friend request"
+    return HttpResponse(json.dumps(payload), content_type="application/json")            

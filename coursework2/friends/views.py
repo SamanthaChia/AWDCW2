@@ -112,8 +112,8 @@ def remove_friend(request, *args, **kwargs):
 def decline_friend_request(request, *args, **kwargs):
     user = request.user
     payload = {}
-    if request.method == "POST" and user.is_authenticated:
-        friend_request_id = request.POST.get("friend_request_id")
+    if request.method == "GET" and user.is_authenticated:
+        friend_request_id = kwargs.get("friend_request_id")
         if friend_request_id:
             friend_request = FriendRequest.objects.get(pk=friend_request_id)
             if friend_request.receiver == user:

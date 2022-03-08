@@ -4,7 +4,7 @@
         // not able to directly input friend_request_id directly inside
         var url = "{% url 'friend:friend-request-decline' friend_request_id=1234 %}".replace("1234", friend_request_id)
         $.ajax({
-            type:"POST",
+            type:"GET",
             dataType: "json",
             url: url,
             timeout: 5000,

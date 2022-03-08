@@ -23,6 +23,7 @@ class FriendsList(models.Model):
             self.friends.remove(account)
             self.save()
 
+    # action to remove friend
     def unfriend(self, account):
         user_friend_list = self
         user_friend_list.remove_friend(account)

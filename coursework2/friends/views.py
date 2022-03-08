@@ -23,20 +23,26 @@ def send_friend_request(request, *args, **kwargs):
                             raise Exception("Friend request already sent.")
                     friend_requests = FriendRequest(sender=user, receiver=receiver)
                     friend_requests.save()
+                    payload['results'] = "success"
                     payload['response'] = "Sent friend request"
                 except Exception as e:
+                    payload['results'] = "error"
                     payload['response'] = str(e)
             # determines that friend request object doesnt exist 
             except FriendRequest.DoesNotExist:
                 friend_requests = FriendRequest(sender=user, receiver=receiver)
                 friend_requests.save()
+                payload['results'] = "success"
                 payload['response'] = "Sent friend request"
             
             if payload['response'] == None:
+                payload['results'] = "error"
                 payload['response'] = "Issue"
         else:
+            payload['results'] = "error"
             payload['response'] = "Unable to send request, receiver does not have a user id"
     else:
+        payload['results'] = "error"
         payload['response'] = "Unable to send request, user is not authenticated"
     
     return HttpResponse(json.dumps(payload), content_type="application/json")

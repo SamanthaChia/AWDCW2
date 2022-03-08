@@ -1,10 +1,26 @@
-from ast import Try
-from django.shortcuts import render
+from django.dispatch import receiver
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from accounts.models import *
 
 import json
+
+def friend_requests_view(request, *aregs, **kwargs):
+    context = {}
+    user = request.user
+    if user.is_authenticated:
+        #retrieve from url
+        user_id = kwargs.get("user_id")
+        account = Account.objects.get(pk=user_id)
+        if account == user:
+            friend_requests = FriendRequest.objects.filter(receiver=account, is_active=True)
+            context['friend_requests'] = friend_requests
+        else:
+            return HttpResponse("You are only allowed to see your own friend requests")
+    else:
+        redirect("login")
+    return render(request, "friends/friend_request.html", context)
 
 def send_friend_request_view(request, *args, **kwargs):
     user = request.user

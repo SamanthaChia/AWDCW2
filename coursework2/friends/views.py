@@ -71,7 +71,7 @@ def accept_friend_request(request, *args, **kwargs):
             friend_request = FriendRequest.objects.get(pk=friend_request_id)
             if friend_request.receiver == user:
                 if friend_request:
-                    friend_request.accept()
+                    friend_request.accept_friend_request()
                     payload['results'] = "success"
                     payload['response'] = "Friend Request has been accepted"
                 else:

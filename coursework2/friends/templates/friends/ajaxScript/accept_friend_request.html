@@ -2,7 +2,7 @@
 	
     function acceptFriendRequest(friend_request_id, uiUpdateFunction){
         // not able to directly input friend_request_id directly inside
-        var url = "{% url 'friend:friend-request-accept' friend_request_id=apokmxkdi %}".replace("apokmxkdi", friend_request_id)
+        var url = "{% url 'friend:friend-request-accept' friend_request_id=1234 %}".replace("1234", friend_request_id)
         $.ajax({
             type:"GET",
             dataType: "json",

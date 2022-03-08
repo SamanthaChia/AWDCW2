@@ -240,7 +240,7 @@
 	}
 
 	function triggerAcceptFriendRequest(friend_request_id){
-		//acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
+		acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
 	}
 
 	function triggerDeclineFriendRequest(friend_request_id){
@@ -250,7 +250,7 @@
 </script>
 
 {% include 'friends/ajaxScript/send_friend_request.html' %}
-{#% include 'snippets/accept_friend_request.html' %#}
+{% include 'friends/ajaxScript/accept_friend_request.html' %}
 {#% include 'snippets/decline_friend_request.html' %#}
 {#% include 'snippets/cancel_friend_request.html' %#}
 {#% include 'snippets/remove_friend.html' %#}

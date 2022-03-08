@@ -138,7 +138,7 @@ def cancel_friend_request(request, *args, **kwargs):
     if request.method == "POST" and user.is_authenticated:
         user_id = request.POST.get("receiver_user_id")
         if user_id:
-            user_getting_removed = FriendRequest.objects.get(pk=user_id)
+            user_getting_removed = Account.objects.get(pk=user_id)
             try:
                 friend_requests = FriendRequest.objects.filter(sender=user, receiver=user_getting_removed, pending_request_status=True)
             except Exception as e:

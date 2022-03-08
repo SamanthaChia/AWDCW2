@@ -2,7 +2,7 @@
 	
     function cancelFriendRequest(id, uiUpdateFunction){
         payload = {
-			"csrfmiddlewaretoken": "{{ csrf_token }}",
+			"csrfmiddlewaretoken": "{{csrf_token}}",
 			"receiver_user_id": id,
 		}
         var url = "{% url 'friend:friend-request-cancel' %}"
@@ -10,6 +10,7 @@
             type:"POST",
             dataType: "json",
             url: url,
+            data: payload,
             timeout: 5000,
             success: function(data){
                 if(data.results == "success"){

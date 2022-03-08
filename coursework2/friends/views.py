@@ -147,13 +147,17 @@ def cancel_friend_request(request, *args, **kwargs):
             if len(friend_requests) > 1:
                 for request in friend_requests:
                     request.cancel_friend_request()
+                payload['results'] = "success"
                 payload['response'] = "Cancelled friend request"
             else:
                 friend_requests.first().cancel_friend_request()
+                payload['results'] = "success"
                 payload['response'] = "Cancelled friend request"
         else:
+            payload['results'] = "error"
             payload['response'] = "Can't cancel friend request"
     else:
+        payload['results'] = "error"
         payload['response'] = "Must be authenticated to cancel friend request"
             
     return HttpResponse(json.dumps(payload), content_type="application/json")  

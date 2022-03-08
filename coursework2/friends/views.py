@@ -72,11 +72,15 @@ def accept_friend_request(request, *args, **kwargs):
             if friend_request.receiver == user:
                 if friend_request:
                     friend_request.accept()
+                    payload['results'] = "success"
                     payload['response'] = "Friend Request has been accepted"
                 else:
+                    payload['results'] = "error"
                     payload['response'] = "Could not find friend request"
         else:
+            payload['results'] = "error"
             payload['response'] = " Not able to accept friend request"
     else:
+        payload['results'] = "error"
         payload['response'] = "Must be authenticated to accept friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")            

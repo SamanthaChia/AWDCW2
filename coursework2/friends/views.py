@@ -99,9 +99,12 @@ def remove_friend_request(request, *args, **kwargs):
                 payload['results'] = "success"
                 payload['response'] = "Removed friend"
             except Exception as e:
+                payload['results'] = "error"
                 payload['response'] = "Issue"
         else:
+            payload['results'] = "error"
             payload['response'] = "Unable to remove friend"
     else:
+        payload['results'] = "error"
         payload['response'] = "Must be authenticated first"
     return HttpResponse(json.dumps(payload), content_type="application/json")            

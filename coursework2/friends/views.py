@@ -5,9 +5,8 @@ from .models import *
 from accounts.models import *
 
 import json
-# Create your views here.
 
-def send_friend_request(request, *args, **kwargs):
+def send_friend_request_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "POST" and user.is_authenticated:

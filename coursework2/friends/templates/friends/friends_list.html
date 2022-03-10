@@ -4,48 +4,54 @@
 {% block content %}
 
 <style type="text/css">
+	.card{
+		border-radius: 12px;
+	}
+
+	.friendlist-card {
+      border: 3px solid black;
+      background-color: white;
+    }
+
 	.profile-image{
 		max-height: 100px;
 		max-width: 100px;
 	}
+
 	.profile-image{
 		border-radius: 12px;
 	}
-	.card{
-		border-radius: 12px;
-	}
+
 	.friends-text{
 		color: #000;
 		font-weight: 500;
 	}
+	
 	.friends-text-container{
 		border: 1px solid #cccccc;
 		border-radius: 12px;
 	}
-	.friends-btn:hover {
-		background-color: #bfbfbf;
-		border-color: #bfbfbf;
-	}
-	.dropdown-toggle::after { 
-		content: none; 
-	}
+
 	.profile-link{
-		color: #000;
+		color: black;
 	}
+
 	.checkmark-icon{
 		color: green;
 	}
+
 	.cancel-icon{
-		color: red;
+		color:salmon
 	}
-	
 </style>
 
 <div class="container">
-	<div class="card p-2">
-
+	<div class="friendlist-card card p-2">
+		<div class="card-header">
+			<h3>All Friends</h3>
+		</div>
 		{% if friends %}
-		<div class="d-flex flex-row flex-wrap">
+		<div class="flex-row flex-wrap">
 		{% for friend in friends %}
 		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
 			<a class="profile-link" href="{% url 'account:user_view' user_id=friend.0.pk %}">
@@ -66,9 +72,6 @@
 						<p class="friends-text m-auto">
 							Friends 
 						</p>
-						<span class="material-icons checkmark-icon m-auto pl-2">
-						check_circle_outline
-						</span>
 					</div>
 				{% else %}
 					{% if friend.0 !=  request.user %}
@@ -80,27 +83,13 @@
 						</div>
 					{% endif %}
 				{% endif %}
-				{% if friend.0 == request.user %}
-					<div class="d-flex flex-row friends-text-container p-3">
-						<p class="friends-text m-auto">
-							This is you 
-						</p>
-						<span class="material-icons m-auto pl-2">
-						person_pin
-						</span>
-					</div>
-				{% endif %}
 			</div>
 		</div>
-		{% if forloop.counter|divisibleby:2 %}
-		</div><div class="d-flex flex-row flex-wrap">
-		{% endif %}
-		
 		{% endfor %}
-		
-		{% else %} <!-- If no friends -->
+		<!-- If no friends -->
+		{% else %} 
 		<div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
-			<p>No friends :(</p>
+			<p>No friends</p>
 		</div>
 		{% endif %}
 		</div>

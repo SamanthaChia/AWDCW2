@@ -10,292 +10,106 @@
 		height: auto;
 		position: relative;
 	}
-	.field-heading{
-		color: #737373;
+
+	.card-border-background {
+		border: 3px solid black;
+		background-color: white;
 	}
+
+	.label-field{
+		color: grey;
+	}
+
 	#id_confirm{
 		color: green;
 	}
+
 	#id_confirm:hover {
-		opacity: 0.3;
+		opacity: 0.2;
 	}
+
 	#id_cancel:hover {
-		opacity: 0.3;
+		opacity: 0.2;
 	}
+
 	#id_cancel{
-		color: red;
+		color: salmon;
 	}
+
 	.material-icons{
-		font-size: 30px;
+		font-size: 34px;
 	}
-	.material-icons:hover{
-		cursor: pointer;
-	}
+
 </style>
 
 <div class="container-fluid">
 	<div class="row justify-content-center">
-		<div class="card profile-card">
-		  <div class="card-body">
-		  	<div class="d-flex flex-column justify-content-center p-4">
-		  		<div class="mb-2" id="id_image_crop_confirm">
-		  			<span id="id_cancel" class="material-icons">cancel</span>
-		  			<span id="id_confirm" class="material-icons">check</span>
-		  		</div>
-		  		<div class="image-container" id="id_image_container">
-	  				<img class="border border-dark rounded-circle img-fluid mx-auto profile-image" id="id_profile_image_display" src="{{update_form.initial.profile_image.url}}" alt="defaultprofile img">
-					<div class="middle" id="id_middle_container">
-						<div class="text" id="id_text">Edit</div>
+		<div class="card card-border-background">
+			<div class="card-body">
+				<div class="d-flex flex-column justify-content-center p-4">
+					<!-- crop image -->
+					<div class="mb-2" id="id_image_crop_confirm">
+						<span id="id_cancel" class="material-icons">cancel</span>
+						<span id="id_confirm" class="material-icons">check</span>
 					</div>
-		  		</div>
-		  		<form class="form-signin" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-		  			<input class="d-none" type="file" id="id_profile_image" name="profile_image" onchange="readURL(this)">
-			  		<h6 class="mt-4 field-heading">Email</h6>
-			  		<input type="email" name="email" id="id_input_email" class="form-control" placeholder="Email address" required autofocus value={{update_form.initial.email}}>
-			  		<h6 class="mt-4 field-heading">Full Name</h6>
-			  		<input type="text" name="full_name" id="id_input_full_name" class="form-control" placeholder="Full name" required
-					value="{{update_form.initial.full_name}}">
-                      <h6 class="mt-4 field-heading">Username</h6>
-			  		<input type="text" name="username" id="id_input_username" class="form-control" placeholder="Username" required
-					value="{{update_form.initial.username}}">
-                    <h6 class="mt-4 field-heading">Date Of Birth</h6>
-			  		<input type="date" name="date_of_birth" id="id_input_date_of_birth" class="form-control"
-					value="{{update_form.initial.date_of_birth}}">
-					<div class="mt-4 checkbox">
-						<label>
-							<input type="checkbox" name="hide_email" id="id_input_hide_email" {% if update_form.initial.hide_email %}checked{%endif%}>
-							Hide Email
-						</label>
-			  			
+					<div class="image-container" id="id_image_container">
+						<img class="border border-dark rounded-circle img-fluid mx-auto profile-image" id="id_profile_image_display" src="{{update_form.initial.profile_image.url}}" alt="defaultprofile img">
+						<div class="middle" id="id_middle_container">
+							<div class="text" id="id_text">Edit</div>
+						</div>
 					</div>
 
-					{% for field in update_form %}
-					<p>
-					{% for error in field.errors %}
-					<p style="color: red">{{ error }}</p>
-					{% endfor %}
-					</p>
-					{% endfor %}
-					{% if update_form.non_field_errors %}
-					<div style="color: red">
-					<p>{{update_form.non_field_errors}}</p>
-					</div>
+					<form class="form-signup" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						
+						<!-- profile image -->
+						<input class="d-none" type="file" id="id_profile_image" name="profile_image" onchange="readURL(this)">
+						
+						<p class="mt-3 label-field font-italic">Email Address</p>
+						<input type="email" name="email" id="id_input_email" class="form-control" placeholder="Email address" required autofocus value={{update_form.initial.email}}>
+						
+						<p class="mt-3 label-field font-italic">Full Name</p>
+						<input type="text" name="full_name" id="id_input_full_name" class="form-control" placeholder="Full name" required
+						value="{{update_form.initial.full_name}}">
+						
+						<p class="mt-3 label-field font-italic">Username</p>
+						<input type="text" name="username" id="id_input_username" class="form-control" placeholder="Username" required
+						value="{{update_form.initial.username}}">
+						
+						<p class="mt-3 label-field font-italic">Date Of Birth</p>
+						<input type="date" name="date_of_birth" id="id_input_date_of_birth" class="form-control"
+						value="{{update_form.initial.date_of_birth}}">
+						
+						<div class="mt-3 checkbox">
+							<label>
+								<input type="checkbox" name="hide_email" id="id_input_hide_email" {% if update_form.initial.hide_email %}checked{%endif%}>
+								Hide Email
+							</label>
+						</div>
 
-					{% endif %}
+						{% for field in update_form %}
+						<p>
+						{% for error in field.errors %}
+						<p style="color: salmon">{{ error }}</p>
+						{% endfor %}
+						</p>
+						{% endfor %}
+						{% if update_form.non_field_errors %}
+						<div style="color: salmon">
+						<p>{{update_form.non_field_errors}}</p>
+						</div>
+						{% endif %}
 
-					<div class="d-flex flex-column mt-4">
-						<button class="mt-4 btn btn-primary flex-grow-1" type="submit">Save</button>
-					</div>
-					
-				</form>
-
-		  	</div>
-		  </div>
+						<div class="d-flex flex-column mt-4">
+							<button class="mt-4 btn btn-dark btn-block" type="submit">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
-
-<script type="text/javascript">
-
-	var cropper;
-	var imageFile;
-	var base64ImageString;
-	var cropX;
-	var cropY;
-	var cropWidth;
-	var cropHeight;
-
-
-	enableImageOverlay()
-
-	function readURL(input){
-		if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-            	disableImageOverlay()
-            	var image = e.target.result
-            	var imageField = document.getElementById('id_profile_image_display')
-                imageField.src = image
-				cropper = new Cropper(imageField, {
-					aspectRatio: 1/1,
-					crop(event){
-						console.log("CROP")
-						console.log("x: " + event.detail.x)
-						console.log("y:" + event.detail.y)
-						console.log("width: " + event.detail.width)
-						console.log("height: " + event.detail.height)
-						setImageCropProperties(
-							image,
-							event.detail.x,
-							event.detail.y,
-							event.detail.width,
-							event.detail.height
-						)
-					}
-				})
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-	}
-
-	function setImageCropProperties(image, x, y, width, height){
-		imageFile = image
-		cropX = x
-		cropY = y
-		cropWidth = width
-		cropHeight = height
-
-	}
-
-	function isImageSizeValid(image){
-		var startIndex = image.indexOf("base64,") + 7
-		var base64str = image.substr(startIndex)
-		// decode a base64 string
-		var decoded = atob(base64str)
-		// if bigger 
-		if (decoded.length >= "{{DATA_UPLOAD_MAX_MEMORY_SIZE}}"){
-			return null
-		} 
-		return base64str
-	}
-
-	function cropImage(image, x, y , width, height){
-		base64ImageString = isImageSizeValid(image)
-		if(base64ImageString == null){
-			alert("Pleae upload an image smaller than 10mb")
-			document.getElementById("id_cancel").click()
-		} else{
-			var requestData = {
-				"csrfmiddlewaretoken": "{{csrf_token}}",
-				"image": base64ImageString,
-				"cropX": cropX,
-				"cropY": cropY,
-				"cropWidth": cropWidth,
-				"cropHeight": cropHeight,
-			}
-			
-			$.ajax({
-				type: 'POST',
-				dataType: "json",
-				url: "{% url 'account:crop_image' user_id=update_form.initial.id %}",
-				data: requestData,
-				timeout:10000,
-				success: function(data){
-					if(data.result == "success"){
-						window.location.reload()
-					} else if(data.result == "error"){
-						alert(data.exception)
-						window.location.reload()
-					}
-				},
-				error: function(data){
-					console.error("ERROR" , data)
-				}
-			})
-		}
-	}
-
-	function enableImageOverlay(){
-		var text = document.getElementById("id_text")
-		text.style.backgroundColor = "#0066ff"
-		text.style.color = "white"
-		text.style.fontSize = "16px"
-		text.style.padding = "16px 32px"
-		text.style.cursor = "pointer"
-
-		var profileImg = document.getElementById("id_profile_image")
-		profileImg.style.opacity = "1"
-		profileImg.style.display = "block"
-		profileImg.style.width = "100%"
-		profileImg.style.height = "auto"
-		profileImg.style.transition = ".5s ease"
-		profileImg.style.backfaceVisibility  = "hidden"
-		profileImg.style.cursor = "pointer"
-
-		var middleContainer = document.getElementById("id_middle_container")
-		middleContainer.style.transition = ".5s ease"
-		middleContainer.style.opacity = "0"
-		middleContainer.style.position = "absolute"
-		middleContainer.style.top = "50%"
-		middleContainer.style.left = "50%"
-		middleContainer.style.transform = "translate(-50%, -50%)"
-		middleContainer.style.textAlign = "center"
-
-		var imageContainer = document.getElementById("id_image_container")
-		imageContainer.addEventListener("mouseover", function( event ) { 
-			profileImg.style.opacity = "0.3"
-			middleContainer.style.opacity = "1"
-		})
-
-		imageContainer.addEventListener("mouseout", function( event ) { 
-			profileImg.style.opacity = "1"
-			middleContainer.style.opacity = "0"
-		})
-
-		imageContainer.addEventListener("click", function(event){
-			document.getElementById('id_profile_image').click();
-		});
-
-		var cropConfirm = document.getElementById("id_image_crop_confirm")
-		cropConfirm.classList.remove("d-flex")
-		cropConfirm.classList.remove("flex-row")
-		cropConfirm.classList.remove("justify-content-between")
-		cropConfirm.classList.add("d-none")
-		
-	}
-
-	function disableImageOverlay(){
-		var profileImg = document.getElementById("id_profile_image_display")
-		var middleContainer = document.getElementById("id_middle_container")
-		var imageContainer = document.getElementById("id_image_container")
-		var text = document.getElementById("id_text")
-
-		imageContainer.removeEventListener("mouseover", function( event ) { 
-			profileImg.style.opacity = "0.3"
-			middleContainer.style.opacity = "1"
-		})
-
-		imageContainer.removeEventListener("mouseout", function( event ) { 
-			profileImg.style.opacity = "1"
-			middleContainer.style.opacity = "0"
-		})
-
-		profileImg.style.opacity = "1"
-		middleContainer.style.opacity = "0"
-		text.style.cursor = "default"
-		text.style.opacity = "0"
-
-		document.getElementById('id_image_container').removeEventListener("click", function(event){
-			event.preventDefault();
-			// do nothing
-		});
-		document.getElementById('id_profile_image').addEventListener("click", function(event){
-			event.preventDefault();
-			// do nothing
-		});
-
-		var cropConfirm = document.getElementById("id_image_crop_confirm")
-		cropConfirm.classList.remove("d-none")
-		cropConfirm.classList.add("d-flex")
-		cropConfirm.classList.add("flex-row")
-		cropConfirm.classList.add("justify-content-between")
-
-		var confirm = document.getElementById("id_confirm")
-		confirm.addEventListener("click", function(event){
-			cropImage(imageFile, cropX, cropY, cropWidth, cropHeight)
-		})
-
-		var cancel = document.getElementById("id_cancel")
-		cancel.addEventListener("click", function(event){
-			console.log("Reloading window...")
-			window.location.reload();
-		})
-	}
-</script>
-
+{% include 'accounts/ajaxScript/cropImage.html' %}
 
 {% endblock content %}

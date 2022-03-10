@@ -173,4 +173,8 @@ def friends_list(request, *args, **kwargs):
                 context['current_user'] = current_user
             except Account.DoesNotExist:
                 return HttpResponse("User doesn't exist")
-
+            try:
+                friends_list = FriendsList.objects.get(user=current_user)
+            except FriendsList.DoesNotExist:
+                return HttpResponse("Could not find friend list for " + current_user.username)
+            

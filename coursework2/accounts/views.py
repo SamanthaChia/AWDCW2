@@ -156,11 +156,19 @@ def user_search(request, *args, **kwargs):
             # filter to get multiple rows because can have more than 1 result
             search_results = Account.objects.filter(full_name__icontains=search_query).filter(
                 username__icontains=search_query).filter(email__icontains=search_query).distinct()
+            user = request.user
             # in array store account details and if you are friends or not
             accounts = []
-            for account in search_results:
-                accounts.append((account, False))
-            context['accounts'] = accounts
+            if user.is_authenticated:
+                user_friend_list = FriendsList.objects.get(user=user)
+                for account in search_results:
+                    accounts.append((account, user_friend_list.is_mutual_friend(account)))
+                context['accounts'] = accounts
+            else:
+                for account in search_results:
+                    accounts.append((account, False))
+                context['accounts'] = accounts
+
 
     return render(request, "accounts/search.html", context)
 

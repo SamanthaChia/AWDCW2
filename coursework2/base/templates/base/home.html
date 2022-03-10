@@ -2,23 +2,23 @@
 
 {% block content %}
 <style type="text/css">
-	.my-grid{
-		border: 1px solid black;
-	}
-	.my-grid-item{
-		border: 1px solid blue;
-	}
+	.timeline-card {
+      border: 3px solid black;
+      background-color: white;
+    }
+
 </style>
 
-<!-- !!!! Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ -->
 <div class="container">
-	<div class="my-grid d-flex flex-column mt-4">
-		<p class="my-grid-item mx-auto my-1 p-1">Item</p>
-		<p class="my-grid-item mx-auto my-1 p-1">Item</p>
-		<p class="my-grid-item mx-auto my-1 p-1">Item</p>
-		<p class="my-grid-item mx-auto my-1 p-1">Item</p>
-		<p class="my-grid-item mx-auto my-1 p-1">Item</p>
+	<div class="timeline-card card p-2">
+		<div class="card-header">
+			<h3>Home</h3>
+			<input id="status-input" type="text" size="100" placeholder="What's New?"><br>
+			<input class="sendbtn btn btn-dark" id="status-submit" type="button" value="Update">
+		</div>
+		<div class="card-body">
+			
+		</div>
 	</div>
-	
 </div>
 {% endblock content %}

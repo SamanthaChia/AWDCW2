@@ -4,58 +4,34 @@
 {% block content %}
 
 <style type="text/css">
-	.profile-card {
+	.card{
+		border-radius: 12px;
+	}
+
+	.card-border-background {
 		border: 3px solid black;
 		background-color: white;
 	}
 
 	.image-container{
-		max-width: 250px;
+		max-width: 200px;
 		height: auto;
 	}
+
 	.label-field{
 		color: grey;
 	}
-	.icon-container:hover {
-		opacity: 0.3;
-		cursor: pointer;
-	}
-	.friends-icon{
-		color: #4287f5;
-		font-size: 40px;
-	}
-	.person-add-icon{
-		color: #4287f5;
-		font-size: 40px;
-	}
+
 	.friend-text{
-		font-weight: 500;
+		font-weight: bold;
 		color: black;
 	}
-	.friends-btn{
-		background-color: #cccccc;
-		border-color: #cccccc;
-		color: #000;
-		font-weight: 500;
-	}
-	.friends-btn:hover {
-		background-color: #bfbfbf;
-		border-color: #bfbfbf;
-	}
-	.dropdown-toggle::after { 
-		content: none; 
-	}
-	.card{
-		border-radius: 12px;
-	}
-	.material-icons{
-		font-size: 30px;
-	}
+
 </style>
 
 <div class="container-fluid">
 	<div class="d-flex flex-row justify-content-center flex-wrap align-items-start">
-		<div class="profile-card card m-2">
+		<div class="card-border-background card m-2">
 			<div class="card-header">
 				<h3>{{full_name}}'s Profile</h3>
 			</div>
@@ -70,7 +46,7 @@
 						<p class="font-weight-bold">{{email}}</p>
 					{% else %}
 						{% if hide_email %}
-						<p class="font-weight-bold">User has choosen to make their email address private</p>
+							<p class="font-weight-bold">User decided to make their email address private</p>
 						{% else %}
 							<h5>{{email}}</h5>
 						{% endif %}
@@ -87,11 +63,11 @@
 
 					<!-- If user is viewing their own profile -->
 					{% if is_self %}
-					<!-- user_id = id, id is gotten from user_view -->
-					<a  class="mt-4 btn btn-dark btn-block" href="{% url 'account:edit' user_id=id %}">Update</a>
-					<div class="d-flex flex-column mt-4">
-						<a class="m-auto" href="{% url 'password_change' %}">Change password</a>
-					</div>
+						<!-- user_id = id, id is gotten from user_view -->
+						<a  class="mt-4 btn btn-dark btn-block" href="{% url 'account:edit' user_id=id %}">Update</a>
+						<div class="d-flex flex-column mt-4">
+							<a class="m-auto" href="{% url 'password_change' %}">Change password</a>
+						</div>
 					{% endif %}
 				</div>
 			</div>
@@ -99,9 +75,9 @@
 
 		<!-- For sending, cancel and removing friend  -->
 		{% if request.user.is_authenticated %}
-		<div class="d-flex flex-column mb-4">
-			<div class="card m-2 px-4 pb-4">
-				{% if is_friend == False and is_self == False %}
+			<div class="d-flex flex-column mb-4">
+				<div class="card-border-background card m-2 px-4 pb-4">
+					{% if is_friend == False and is_self == False %}
 						<!-- You send friend request -->
 						{% if request_sent == 1 %}
 						<div class="d-flex pt-3 align-items-center">
@@ -119,57 +95,55 @@
 							</button>
 						</div>
 						{% endif %}
-				{% endif %}
+					{% endif %}
+
+					<!-- If already friends -->
+					{% if is_friend %}
+					<div class="d-flex pt-4 align-items-center ">
+						<p class="font-weight-bold">You're Already Friends</p>
+					</div>
+					{% endif %}
 					
-				{% if is_friend %}
-				<div class="d-flex pt-4 align-items-center ">
-					<p class="font-weight-bold">You're Already Friends</p>
-				</div>
-				{% endif %}
-				
-				<!-- Friend list link -->
-		  		<div class="d-flex flex-column pt-4">
-					<a href="{% url 'friend:friends-list' user_id=id %}">
-						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 friends-icon">contact_page</span><span class="friend-text">Friends ({{friends|length}})</span>
-						</div>
-					</a>
-				</div>
-
-			</div>
-
-			{% if is_friend %}
-			<div class="d-flex flex-column mb-4">
-				<div class="card m-2 px-4 pb-4">
-					<div class="d-flex pt-3 align-items-center">
-						<button class="btn btn-danger" id="id_unfriend_btn" onclick="removeFriend('{{id}}', onFriendRemoved)">
-							Remove Friend
-						</button>
+					<!-- Friends list link -->
+					<div class="d-flex flex-column pt-4">
+						<a href="{% url 'friend:friends-list' user_id=id %}">
+							<div class="d-flex flex-row align-items-center justify-content-center">
+								<span class="friend-text">Friend(s) [{{friends|length}}]</span>
+							</div>
+						</a>
 					</div>
 				</div>
-			</div>
-			{% endif %}
 
-			{% if friend_requests %}
-			<div class="card m-2 px-4 pb-4">
-				<!-- Friend requests -->
-		  		<div class="d-flex flex-column pt-4">
-					<a href="{% url 'friend:friend-requests' user_id=id %}">
-						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 person-add-icon">person_add</span><span class="friend-text">Friend Requests ({{friend_requests|length}})</span>
+				<!-- Remove Friend -->
+				{% if is_friend %}
+				<div class="d-flex flex-column mb-4">
+					<div class="card m-2 px-4 pb-4">
+						<div class="d-flex pt-3 align-items-center">
+							<button class="btn btn-danger" id="id_unfriend_btn" onclick="removeFriend('{{id}}', onFriendRemoved)">
+								Remove Friend
+							</button>
 						</div>
-					</a>
+					</div>
 				</div>
+				{% endif %}
+
+				<!-- Friend Requests -->
+				{% if friend_requests %}
+				<div class="card m-2 px-4 pb-4">
+					<div class="d-flex flex-column pt-4">
+						<a href="{% url 'friend:friend-requests' user_id=id %}">
+							<div class="d-flex flex-row align-items-center justify-content-center">
+								<span class="friend-text">Friend Requests ({{friend_requests|length}})</span>
+							</div>
+						</a>
+					</div>
+				</div>
+				{% endif %}
+
 			</div>
-			{% endif %}
-
-		</div>
 		{% endif %}
-
-		
 	</div>
 </div>
-
 
 <script type="text/javascript">
 

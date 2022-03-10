@@ -10,7 +10,7 @@
 			{% endif %}
 		</h5>
 		<form class="search-bar justify-content-start" onsubmit="return executeQuery()">
-			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search...">
+			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search Accounts">
 		</form>
 
 		<div class="d-flex flex-row-reverse flex-grow-1">
@@ -18,12 +18,9 @@
 				{% if request.user.is_authenticated %}
 					<div class="dropdown dropleft show p-2">
 						<div class="d-flex flex-row">
-
-							<div class="btn-group dropleft">
-								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="default img" width="40" height="40">
-									<a class="dropdown-item" href="{% url 'account:user_view' user_id=request.user.id %}">Account</a>
-									<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-							</div>
+							<img class="account-image rounded-circle m-auto d-block" id="id_profile_links" src="{{request.user.profile_image.url}}" alt="default img" width="40" height="40">
+							<a class="p-2 text-dark" href="{% url 'account:user_view' user_id=request.user.id %}">Account</a>
+							<a class="p-2 text-dark" href="{% url 'logout' %}">Logout</a>
 						</div>
 						
 					</div>

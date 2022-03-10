@@ -30,6 +30,7 @@ urlpatterns = [
     path('logout/', user_logout, name="logout"),
     path('search/', user_search, name="search"),
     path('friend/', include('friends.urls', namespace='friend')),
+    path('chat/', include('chat.urls')),
     
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='password/password_change.html'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password/password_change_done.html'), name='password_change_done'),

@@ -29,12 +29,6 @@ DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.coursera-apps.org',
-]
-
 AUTH_USER_MODEL = "accounts.Account"
 
 AUTHENTICATION_BACKENDS = (
@@ -88,7 +82,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'coursework2.wsgi.application'
 ASGI_APPLICATION = 'coursework2.routing.application'
 
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.coursera-apps.org',
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

@@ -161,3 +161,16 @@ def cancel_friend_request(request, *args, **kwargs):
         payload['response'] = "Must be authenticated to cancel friend request"
             
     return HttpResponse(json.dumps(payload), content_type="application/json")  
+
+def friends_list(request, *args, **kwargs):
+    context = {}
+    user = request.user
+    if user.is_authenticated:
+        user_id = kwargs.get("user_id")
+        if user_id != None:
+            try:
+                current_user = Account.objects.get(pk=user_id)
+                context['current_user'] = current_user
+            except Account.DoesNotExist:
+                return HttpResponse("User doesn't exist")
+

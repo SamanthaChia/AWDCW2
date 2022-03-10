@@ -80,7 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'coursework2.wsgi.application'
-ASGI_APPLICATION = 'coursework2.routing.application'
+ASGI_APPLICATION = 'coursework2.routings.application'
 
 ALLOWED_HOSTS = [
     'localhost',

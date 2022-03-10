@@ -184,8 +184,10 @@ def friends_list(request, *args, **kwargs):
             friends = []
             user_friend_list = FriendsList.objects.get(user=user)
             for friend in friends_list.friends.all():
-                friends.append((friend, ))
-
+                friends.append((friend, user_friend_list.is_mutual_friend(friend)))
+            context['friends'] = friends
+        else:
+            return HttpResponse("you are not authenticated to view friends list")
     else:
         return HttpResponse("You are not authenticated to view friends list!")
 

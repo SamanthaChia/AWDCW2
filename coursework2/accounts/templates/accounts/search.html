@@ -56,10 +56,6 @@
 			<a class="profile-link" href="{% url 'account:user_view' user_id=account.0.id %}">
 				<div class="card-center px-2">
 					<h4 class="card-title">{{account.0.username}}</h4>
-					{% if account.1 %}
-					<p class="card-text"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
-					{% endif %}
-					
 				</div>
 			</a>
 			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
@@ -111,14 +107,5 @@
 	</div>
 	
 </div>
-
-
-{#%  include 'chat/create_or_return_private_chat.html' %#}
-
-<script type="text/javascript">
-	function createOrReturnPrivateChat(user_id){
-		// Just a placeholder
-	}
-</script>
 
 {% endblock content %}

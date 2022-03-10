@@ -168,13 +168,25 @@ def friends_list(request, *args, **kwargs):
     if user.is_authenticated:
         user_id = kwargs.get("user_id")
         if user_id != None:
+            # retrieve user that i'm looking at
             try:
                 current_user = Account.objects.get(pk=user_id)
                 context['current_user'] = current_user
             except Account.DoesNotExist:
                 return HttpResponse("User doesn't exist")
+            # retrieve friends list of user that i'm currently looking at
             try:
                 friends_list = FriendsList.objects.get(user=current_user)
             except FriendsList.DoesNotExist:
                 return HttpResponse("Could not find friend list for " + current_user.username)
             
+            # similar to search account
+            friends = []
+            user_friend_list = FriendsList.objects.get(user=user)
+            for friend in friends_list.friends.all():
+                friends.append((friend, ))
+
+    else:
+        return HttpResponse("You are not authenticated to view friends list!")
+
+    return render(request, "friends/friends_list.html", context)

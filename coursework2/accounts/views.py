@@ -162,7 +162,7 @@ def user_search(request, *args, **kwargs):
             if user.is_authenticated:
                 user_friend_list = FriendsList.objects.get(user=user)
                 for account in search_results:
-                    accounts.append((account, user_friend_list.is_mutual_friend(account)))
+                    accounts.append((account, user_friend_list.check_mutual_friends(account)))
                 context['accounts'] = accounts
             else:
                 for account in search_results:

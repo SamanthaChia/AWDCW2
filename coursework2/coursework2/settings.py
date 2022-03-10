@@ -29,7 +29,11 @@ DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.coursera-apps.org',
+]
 
 AUTH_USER_MODEL = "accounts.Account"
 
@@ -40,9 +44,11 @@ AUTHENTICATION_BACKENDS = (
 
 # Application definition
 INSTALLED_APPS = [
+    'channels',
     'base',
     'accounts',
     'friends',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,6 +86,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'coursework2.wsgi.application'
+ASGI_APPLICATION = 'coursework2.routing.application'
+
 
 
 # Database

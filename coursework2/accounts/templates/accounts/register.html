@@ -36,26 +36,28 @@
 
 </style>
 
-<div class="container-fluid">
+<div class="container">
 	<div class="row justify-content-center">
 		<div class="card card-signin">
-		  <div class="card-body">
+			<div class="card-header">
+				<h3>Register</h3>
+				<p>Quick and easy</p>
+			</div>
+			<div class="card-body">
 		    <form class="form-signin" method="post">
                 {% csrf_token %}
-				<div class="d-flex flex-column pb-3">
-				<img class="img-fluid mx-auto d-block" src="{% static 'defaultImgs/default_profile_image.jpg' %}" alt="default image logo" width="72" height="72">
-				</div>
                 <input type="text" name="full_name" id="inputName" class="form-control" placeholder="Full Name" required autofocus>
 
 				<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
-
-                <input type="date" name="date_of_birth" id="inputDOB" class="form-control">
 
 				<input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required>
 
 				<input type="password" name="password1" id="inputPassword1" class="form-control" placeholder="Password" required>
 
 				<input type="password" name="password2" id="inputPassword2" class="form-control" placeholder="Confirm password" required>
+
+				<label for="inputDOB">Date Of Birth</label>
+                <input type="date" name="date_of_birth" id="inputDOB" class="form-control">
 
 				{% for field in registration_form %}
 				<p>

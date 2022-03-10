@@ -10,4 +10,6 @@ urlpatterns = [
     path('remove_friend/', views.remove_friend, name="remove-friend"),
     path('decline_friend_request/<friend_request_id>', views.decline_friend_request, name="friend-request-decline"), 
     path('cancel_friend_request/', views.cancel_friend_request, name="friend-request-cancel"),    
+    path('friends_list/<user_id>', views.friends_list, name="friends-list"),    
+
 ]

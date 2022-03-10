@@ -30,6 +30,11 @@ class FriendsList(models.Model):
         friends_list = FriendsList.objects.get(user=account)
         friends_list.remove_friend(self.user)
 
+    def check_mutual_friends(self, friend):
+        if friend in self.friends.all():
+            return True
+        return False
+
 class FriendRequest(models.Model):
     # 1 user can send many friend requests
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = "sender")

@@ -15,10 +15,15 @@ class StatusForm(forms.ModelForm):
 
     image = forms.ImageField(
         required=False,
+        widget=forms.widgets.ClearableFileInput(
+            attrs={
+                "multiple": True
+            }
+        ),
         label="Upload Image ",
     )
 
     class Meta:
         model = StatusList
-        fields = ['textUpdate', 'image']
+        fields = ['textUpdate']
         exclude = ("author", )

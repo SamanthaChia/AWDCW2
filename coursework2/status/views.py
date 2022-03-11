@@ -15,6 +15,15 @@ def timeline(request, *args, **kwargs):
 
     user = request.user
     if user.is_authenticated:
+
+        if request.method == 'POST':
+            update_status_form = StatusForm(request.POST)
+            if update_status_form.is_valid():
+                status = update_status_form.save(commit=False)
+                status.author = request.user
+                status.save()
+                return redirect("status:timeline")
+
         account = Account.objects.get(pk=user.id)
         context['account'] = account
         try:
@@ -30,7 +39,10 @@ def timeline(request, *args, **kwargs):
             account_statuses = StatusList.objects.filter(Q(author=friend.id) | Q(author=account.id)).order_by("-created_at")
             all_statuses_list.append(account_statuses)
 
+        update_status_form = StatusForm()
+        context['update_status_form'] = update_status_form
         context['all_statuses_list'] = all_statuses_list
+
     return render(request, 'status/home_timeline.html', context)
 
 

@@ -25,7 +25,6 @@
 		<div class="card-border-background card m-2">
 			<div class="card-header">
 				<h3>{{account.full_name}}'s Timeline</h3>
-                {% if is_self %}
                 <div>
                     <form method="POST">
                         {% csrf_token %}
@@ -33,7 +32,6 @@
                         <button class="btn btn-dark btn-block" type="submit">Submit</button>
                     </form>
                 </div>
-                {% endif %}
 			</div>
 			<div class="card-body">
                 {% for statuses in all_statuses_list %}

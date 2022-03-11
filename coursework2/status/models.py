@@ -9,7 +9,7 @@ class StatusList(models.Model):
     created_at = models.DateTimeField(verbose_name='date posted', auto_now_add=True)
 
     def __str__(self):
-        return self.author.username
+        return self.author.username + " " + str(self.created_at) + " : " + self.textUpdate
     
     def get_textUpdate(self):
         return self.textUpdate

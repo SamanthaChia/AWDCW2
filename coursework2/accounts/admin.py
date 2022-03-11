@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from accounts.models import Account
+from .models import *
 
 # Register your models here.
 class AccountAdmin(UserAdmin):

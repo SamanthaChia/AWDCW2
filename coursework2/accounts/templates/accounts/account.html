@@ -127,6 +127,19 @@
 				</div>
 				{% endif %}
 
+				
+				{% if is_self or is_friend %}
+				<!-- View status of user page -->
+				<div class="card m-2 px-4 pb-4">
+					<div class="d-flex flex-column pt-4">
+						<a href="{% url 'status:status-profile' user_id=id %}">
+							<div class="d-flex flex-row align-items-center justify-content-center">
+								<span class="friend-text">View Statuses</span>
+							</div>
+						</a>
+					</div>
+				{% endif %}
+
 				<!-- Friend Requests -->
 				{% if friend_requests %}
 				<div class="card m-2 px-4 pb-4">
@@ -138,6 +151,11 @@
 						</a>
 					</div>
 				</div>
+				{% endif %}
+
+				<!-- Friend Requests -->
+				{% if is_friend %}
+
 				{% endif %}
 
 			</div>

@@ -1,5 +1,5 @@
 from email.errors import StartBoundaryNotFoundDefect
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from django.http import HttpResponse
 
 from .models import *
@@ -27,7 +27,17 @@ def status_profile(request, *args, **kwargs):
             except StatusList.DoesNotExist:
                 return HttpResponse("Statuses do not exist")
 
-            update_status_form = StatusForm()
-            context['update_status_form'] = update_status_form
+        if request.method == 'POST':
+            update_status_form = StatusForm(request.POST)
+            if update_status_form.is_valid():
+                status = update_status_form.save(commit=False)
+                status.author = request.user
+                status.save()
+                return redirect("status:status-profile", user_id=account.pk)
 
+        update_status_form = StatusForm()
+        context['update_status_form'] = update_status_form
+        
         return render(request, 'status/status_profile.html', context)
+    else:
+        HttpResponse("Must be authenticated to view")

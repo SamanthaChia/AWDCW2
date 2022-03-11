@@ -5,7 +5,7 @@ from django.conf import settings
 class StatusList(models.Model):
     # 1 author can post many statuses
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name = "author")
-    image = models.ImageField(upload_to='uploads/post_photos', blank=True, null=True)
+    image = models.ManyToManyField('Image', blank=True)
     textUpdate = models.CharField(max_length=140, null=True, blank=True)
     created_at = models.DateTimeField(verbose_name='date posted', auto_now_add=True)
 
@@ -17,3 +17,6 @@ class StatusList(models.Model):
     
     def get_created_at(self):
         return self.created_at
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='uploads/post_photos', blank=True, null=True)

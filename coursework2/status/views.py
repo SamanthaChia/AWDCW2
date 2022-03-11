@@ -30,13 +30,18 @@ def timeline(request, *args, **kwargs):
             # retrieve the friend list
             friends_list = FriendsList.objects.get(user=account)
         except FriendsList.DoesNotExist:
-           return HttpResponse("No friends")
-
+            #if friend list does not exist create one
+            friends_list = FriendsList(user=account)
+            friends_list.save()
         # retrieve all friends of the user
         friends = friends_list.friends.all()
         context['friends'] = friends
-        for friend in friends:
-            account_statuses = StatusList.objects.filter(Q(author=friend.id) | Q(author=account.id)).order_by("-created_at")
+        if friends:
+            for friend in friends:
+                account_statuses = StatusList.objects.filter(Q(author=friend.id) | Q(author=account.id)).order_by("-created_at")
+                all_statuses_list.append(account_statuses)
+        else:
+            account_statuses = StatusList.objects.filter(author=account.id).order_by("-created_at")
             all_statuses_list.append(account_statuses)
 
         update_status_form = StatusForm()
@@ -66,7 +71,6 @@ def status_profile(request, *args, **kwargs):
             try:
                 # newest to oldest
                 account_statuses_list = StatusList.objects.filter(author=user_id).order_by("-created_at")
-                context['account_statuses_list'] = account_statuses_list
             except StatusList.DoesNotExist:
                 return HttpResponse("Statuses do not exist")
 
@@ -80,6 +84,7 @@ def status_profile(request, *args, **kwargs):
 
         update_status_form = StatusForm()
         context['is_self'] = is_self
+        context['account_statuses_list'] = account_statuses_list
         context['update_status_form'] = update_status_form
         
         return render(request, 'status/status_profile.html', context)

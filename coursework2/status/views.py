@@ -75,7 +75,7 @@ def status_profile(request, *args, **kwargs):
                 return HttpResponse("Statuses do not exist")
 
         if request.method == 'POST':
-            update_status_form = StatusForm(request.POST)
+            update_status_form = StatusForm(request.POST, request.FILES)
             if update_status_form.is_valid():
                 status = update_status_form.save(commit=False)
                 status.author = request.user

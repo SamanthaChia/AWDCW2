@@ -13,6 +13,12 @@ class StatusForm(forms.ModelForm):
         label="",
     )
 
+    image = forms.ImageField(
+        required=False,
+        label="Upload Image ",
+    )
+
     class Meta:
         model = StatusList
+        fields = ['textUpdate', 'image']
         exclude = ("author", )

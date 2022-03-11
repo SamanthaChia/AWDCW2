@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+	.card{
+		border-radius: 12px;
+	}
+
+	.card-border-background {
+		border: 3px solid black;
+		background-color: white;
+	}
+
+    .createdAt{
+        font-size:small;
+        color: grey;
+    }
+
+</style>
+
+<div class="container-fluid">
+	<div class="d-flex flex-row justify-content-center flex-wrap align-items-start">
+		<div class="card-border-background card m-2">
+			<div class="card-header">
+				<h3>{{account.full_name}}'s Timeline</h3>
+                <div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ update_status_form.as_p }}
+                        <button class="btn btn-dark btn-block" type="submit">Submit</button>
+                    </form>
+                </div>
+			</div>
+			<div class="card-body">
+                {% for statuses in all_statuses_list %}
+                    {% for status in statuses %}
+                        <div class="mt-2 box">
+                            <a class="text-dark" href="{% url 'account:user_view' user_id=status.author.id %}">
+                                <img class="account-image rounded-circle" id="id_profile_links" src="{{status.author.profile_image.url}}" alt="default img" width="40" height="40">
+                            {{ status.author }} :
+                            </a>
+                            <div class="pl-4 box-text-update">
+                                {{ status.textUpdate }}
+                                <span class="font-italic createdAt">
+                                    ({{ status.created_at }})
+                                </span>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

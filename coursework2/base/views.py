@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 def home_screen(request):
-    context = {}
-    user = request.user
-    if user.is_authenticated:
-        return render(request, "base/home.html", context)
-    else:
-        return render(request, "accounts/login.html", context)
+	context = {}
+	user = request.user
+	if user.is_authenticated:
+		return redirect("status:timeline")
+	else:
+		return render(request, "base/home.html", context)

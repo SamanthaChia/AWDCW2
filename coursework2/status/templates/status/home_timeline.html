@@ -49,9 +49,15 @@
                             </a>
                             <div class="pl-4 box-text-update">
                                 {{ status.textUpdate }}
-                                {% if status.image %}
-                                    <br>
-                                    <img src="{{status.image.url}}" class="post-img" />
+                                {% if status.image.count > 0 %}
+                                <br>
+                                <div class="row">
+                                    {% for img in status.image.all %}
+                                        <div class="pr-3">
+                                            <img src="{{ img.image.url }}" class="post-img">
+                                        </div>
+                                    {% endfor %}
+                                </div>
                                 {% endif %}
                                 <span class="font-italic createdAt">
                                     <br>

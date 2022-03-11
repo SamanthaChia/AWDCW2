@@ -25,6 +25,7 @@
 		<div class="card-border-background card m-2">
 			<div class="card-header">
 				<h3>{{account.full_name}}'s Status</h3>
+                {% if is_self %}
                 <div>
                     <form method="POST">
                         {% csrf_token %}
@@ -32,13 +33,14 @@
                         <button class="btn btn-dark btn-block" type="submit">Submit</button>
                     </form>
                 </div>
+                {% endif %}
 			</div>
 			<div class="card-body">
             {% if account_statuses_list %}
                 <div class="content">
                     {% for status in account_statuses_list %}
                         <div class="mt-2 box">
-                            <a class="text-dark" href="{% url 'account:user_view' user_id=request.user.id %}">
+                            <a class="text-dark" href="{% url 'account:user_view' user_id=account.id %}">
                                 <img class="account-image rounded-circle" id="id_profile_links" src="{{account.profile_image.url}}" alt="default img" width="40" height="40">
                             {{ account.full_name }} :
                             </a>

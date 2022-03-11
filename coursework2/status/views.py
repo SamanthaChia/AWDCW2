@@ -5,11 +5,12 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 from accounts.models import *
-from friends.friend_request_status import *
+from friends.models import *
 
 # Create your views here.
 def status_profile(request, *args, **kwargs):
     context = {}
+    is_self = True
     user = request.user
     if user.is_authenticated:
         user_id = kwargs.get("user_id")
@@ -18,9 +19,12 @@ def status_profile(request, *args, **kwargs):
             try:
                 account = Account.objects.get(pk=user_id)
                 context['account'] = account
+                if user != account:
+                    is_self = False
+
             except Account.DoesNotExist:
                 return HttpResponse("User doesn't exist")
-            
+
             try:
                 account_statuses_list = StatusList.objects.filter(author=user_id)
                 context['account_statuses_list'] = account_statuses_list
@@ -36,6 +40,7 @@ def status_profile(request, *args, **kwargs):
                 return redirect("status:status-profile", user_id=account.pk)
 
         update_status_form = StatusForm()
+        context['is_self'] = is_self
         context['update_status_form'] = update_status_form
         
         return render(request, 'status/status_profile.html', context)

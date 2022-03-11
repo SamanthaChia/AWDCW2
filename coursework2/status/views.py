@@ -17,7 +17,7 @@ def timeline(request, *args, **kwargs):
     if user.is_authenticated:
 
         if request.method == 'POST':
-            update_status_form = StatusForm(request.POST)
+            update_status_form = StatusForm(request.POST, request.FILES)
             if update_status_form.is_valid():
                 status = update_status_form.save(commit=False)
                 status.author = request.user

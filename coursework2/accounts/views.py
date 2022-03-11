@@ -1,4 +1,3 @@
-import email
 import datetime
 import os
 import cv2 #opencv
@@ -13,9 +12,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.files.storage import default_storage, FileSystemStorage
 from django.core import files
+
 from friends.models import *
-
-
 from .forms import *
 from .models import *
 from friends.friend_request_status import *
@@ -35,8 +33,8 @@ def user_register(request, *args, **kwargs):
         registration_form = RegistrationForm(request.POST)
         if registration_form.is_valid():
             # validates the data and creates the account
-            registration_form.save()
             print(registration_form.cleaned_data)
+            registration_form.save()
             messages.success(request,'Your account has been successfully created!')
         else:
             context['registration_form'] = registration_form

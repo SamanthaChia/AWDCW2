@@ -1,44 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
-# profile_images file will be saved in media_cdn separated by pk of user
-def get_profile_image(self, filename):
-    return 'profile_images/'+ str(self.pk) + '/"profile_image.png"'
-
-def get_default_profile_image():
-    return "defaultImgs/default_profile_image.jpg"
+from django.contrib.auth.models import PermissionsMixin
 
 class AccountManager(BaseUserManager):
-    def create_user(self, email, username, full_name, password=None, **extra_fields):
+    def create_user(self, email, username, full_name, password=None):
         if not email:
             raise ValueError('An account needs an email address')
         if not username:
             raise ValueError('An account needs a username')
         if not full_name:
             raise ValueError('An account needs a name')
-            
+
+        email = self.normalize_email(email)    
         user = self.model(
-            email = self.normalize_email(email),
+            email = email,
             username = username,
             full_name = full_name,
-            **extra_fields
         )
-
-        extra_fields.setdefault('is_admin', False)
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, full_name, password, **extra_fields):
+    def create_superuser(self, email, username, full_name, password):
         user = self.create_user(
             email = self.normalize_email(email),
             username = username,
             full_name = full_name,
             password=password,
-            **extra_fields
         )
         
         user.is_admin=True
@@ -46,8 +35,16 @@ class AccountManager(BaseUserManager):
         user.is_superuser=True
         user.save(using=self._db)
         return user
+        
+# profile_images file will be saved in media_cdn separated by pk of user
+def get_profile_image(self):
+    return 'profile_images/'+ str(self.pk) + '/"profile_image.png"'
 
-class Account(AbstractBaseUser):
+def get_default_profile_image():
+    return "defaultImgs/default_profile_image.jpg"
+
+
+class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=256, unique=True)
     username = models.CharField(max_length=20, unique=True)
     full_name = models.CharField(max_length=256)
@@ -61,17 +58,13 @@ class Account(AbstractBaseUser):
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     hide_email = models.BooleanField(default=True)
 
+    objects = AccountManager()
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name', 'username']
 
-    objects = AccountManager()
-
-    # Retrieve 
-    def get_fullname(self):
-        return self.full_name
-
-    def get_username(self):
-        return self.username
+    def __str__(self):
+        return self.email
 
     def get_user_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index('profile_images/'+str(self.pk)+'/'):]

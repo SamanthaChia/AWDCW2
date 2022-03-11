@@ -18,10 +18,21 @@ def timeline(request, *args, **kwargs):
 
         if request.method == 'POST':
             update_status_form = StatusForm(request.POST, request.FILES)
+            files = request.FILES.getlist('image')
+            
             if update_status_form.is_valid():
                 status = update_status_form.save(commit=False)
                 status.author = request.user
                 status.save()
+
+                for f in files:
+                    img = Image(image=f)
+                    img.save()
+                    # add is usable for many to many fields
+                    status.image.add(img)
+                
+                status.save()
+
                 return redirect("status:timeline")
 
         account = Account.objects.get(pk=user.id)
@@ -76,10 +87,21 @@ def status_profile(request, *args, **kwargs):
 
         if request.method == 'POST':
             update_status_form = StatusForm(request.POST, request.FILES)
+            files = request.FILES.getlist('image')
+
             if update_status_form.is_valid():
                 status = update_status_form.save(commit=False)
                 status.author = request.user
                 status.save()
+
+                for f in files:
+                    img = Image(image=f)
+                    img.save()
+                    # add is usable for many to many fields
+                    status.image.add(img)
+                
+                status.save()
+
                 return redirect("status:status-profile", user_id=account.pk)
 
         update_status_form = StatusForm()

@@ -13,6 +13,17 @@ class StatusForm(forms.ModelForm):
         label="",
     )
 
+    image = forms.ImageField(
+        required=False,
+        widget=forms.widgets.ClearableFileInput(
+            attrs={
+                "multiple": True
+            }
+        ),
+        label="Upload Image ",
+    )
+
     class Meta:
         model = StatusList
+        fields = ['textUpdate']
         exclude = ("author", )

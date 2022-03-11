@@ -9,11 +9,11 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = Account
-        fields = ('email', 'username', 'full_name', 'date_of_birth' , 'password1', 'password2')
+        fields = ('username', 'email', 'full_name', 'date_of_birth' , 'password1', 'password2')
 
         #validation, must have clean infront for django to know.
         def clean_email(self):
-            email = self.cleaned_data.get("email").lower()
+            email = self.cleaned_data["email"].lower()
             try:
                 account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
             except Account.DoesNotExist:
@@ -21,7 +21,7 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError('Email "%s" is alreade in use' % account)
 
         def clean_username(self):
-            username = self.cleaned_data.get("username")
+            username = self.cleaned_data["username"]
             try:
                 account = Account.objects.exclude(pk=self.instance.pk).get(username=username)
             except Account.DoesNotExist:
@@ -30,11 +30,19 @@ class RegistrationForm(UserCreationForm):
 
         def clean_password2(self):
             # Check that the two password entries match
-            password1 = self.cleaned_data.get("password1")
-            password2 = self.cleaned_data.get("password2")
+            password1 = self.cleaned_data["password1"]
+            password2 = self.cleaned_data["password2"]
             if password1 and password2 and password1 != password2:
                 raise forms.ValidationError("Passwords don't match")
             return password2
+        
+        def save(self, commit=True):
+            account = super(RegistrationForm, self).save(commit=False)
+            account.email = self.cleaned_data["email"]
+            if commit:
+                account.save()   
+            return account
+
 
 # For Login
 class LoginForm(forms.ModelForm):

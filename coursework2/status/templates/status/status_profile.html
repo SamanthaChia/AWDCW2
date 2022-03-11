@@ -18,6 +18,13 @@
         color: grey;
     }
 
+    .post-img{
+        max-width: 150px;
+        height:100%;
+        margin-bottom: 10px;
+    }
+
+
 </style>
 
 <div class="container-fluid">
@@ -27,7 +34,7 @@
 				<h3>{{account.full_name}}'s Status</h3>
                 {% if is_self %}
                 <div>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ update_status_form.as_p }}
                         <button class="btn btn-dark btn-block" type="submit">Submit</button>
@@ -46,7 +53,19 @@
                             </a>
                             <div class="pl-4 box-text-update">
                                 {{ status.textUpdate }}
+                                <br>
+                                {% if status.image.count > 0 %}
+                                    <br>
+                                    <div class="row">
+                                        {% for img in status.image.all %}
+                                            <div class="col-md-4 col-xd-12">
+                                                <img src="{{ img.image.url }}" class="post-img">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                                 <span class="font-italic createdAt">
+                                    <br>
                                     ({{ status.created_at }})
                                 </span>
                             </div>

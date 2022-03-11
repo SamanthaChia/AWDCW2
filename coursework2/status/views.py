@@ -8,6 +8,38 @@ from accounts.models import *
 from friends.models import *
 
 # Create your views here.
+def timeline(request, *args, **kwargs):
+    context={}
+    all_statuses_list = []
+
+    user = request.user
+    if user.is_authenticated:
+        account = Account.objects.get(pk=user.id)
+        context['account'] = account
+        try:
+            # retrieve the friend list
+            friends_list = FriendsList.objects.get(user=account)
+        except FriendsList.DoesNotExist:
+           return HttpResponse("No friends")
+
+        # users own one
+        try:
+            # newest to oldest
+            account_statuses = StatusList.objects.filter(author=account.id).order_by("-created_at")
+            all_statuses_list.append(account_statuses)
+        except StatusList.DoesNotExist:
+            return HttpResponse("Statuses do not exist")
+
+        # retrieve all friends of the user
+        friends = friends_list.friends.all()
+        context['friends'] = friends
+        for friend in friends:
+            account_statuses = StatusList.objects.filter(author=friend.id).order_by("-created_at")
+            all_statuses_list.append(account_statuses)
+        context['all_statuses_list'] = all_statuses_list
+    return render(request, 'status/home_timeline.html', context)
+
+
 def status_profile(request, *args, **kwargs):
     context = {}
     is_self = True
@@ -26,7 +58,8 @@ def status_profile(request, *args, **kwargs):
                 return HttpResponse("User doesn't exist")
 
             try:
-                account_statuses_list = StatusList.objects.filter(author=user_id)
+                # newest to oldest
+                account_statuses_list = StatusList.objects.filter(author=user_id).order_by("-created_at")
                 context['account_statuses_list'] = account_statuses_list
             except StatusList.DoesNotExist:
                 return HttpResponse("Statuses do not exist")

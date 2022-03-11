@@ -22,7 +22,7 @@ def timeline(request, *args, **kwargs):
         except FriendsList.DoesNotExist:
            return HttpResponse("No friends")
 
-        # users own one
+        # users own status
         try:
             # newest to oldest
             account_statuses = StatusList.objects.filter(author=account.id).order_by("-created_at")

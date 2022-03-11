@@ -1,6 +1,7 @@
 from email.errors import StartBoundaryNotFoundDefect
 from django.shortcuts import render ,redirect
 from django.http import HttpResponse
+from django.db.models import Q
 
 from .models import *
 from .forms import *
@@ -22,20 +23,13 @@ def timeline(request, *args, **kwargs):
         except FriendsList.DoesNotExist:
            return HttpResponse("No friends")
 
-        # users own status
-        try:
-            # newest to oldest
-            account_statuses = StatusList.objects.filter(author=account.id).order_by("-created_at")
-            all_statuses_list.append(account_statuses)
-        except StatusList.DoesNotExist:
-            return HttpResponse("Statuses do not exist")
-
         # retrieve all friends of the user
         friends = friends_list.friends.all()
         context['friends'] = friends
         for friend in friends:
-            account_statuses = StatusList.objects.filter(author=friend.id).order_by("-created_at")
+            account_statuses = StatusList.objects.filter(Q(author=friend.id) | Q(author=account.id)).order_by("-created_at")
             all_statuses_list.append(account_statuses)
+
         context['all_statuses_list'] = all_statuses_list
     return render(request, 'status/home_timeline.html', context)
 

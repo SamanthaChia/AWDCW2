@@ -26,7 +26,11 @@
 			<div class="card-header">
 				<h3>{{account.full_name}}'s Status</h3>
                 <div>
-                    {{ update_status_form.as_p }}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ update_status_form.as_p }}
+                        <button class="btn btn-dark btn-block" type="submit">Submit</button>
+                    </form>
                 </div>
 			</div>
 			<div class="card-body">

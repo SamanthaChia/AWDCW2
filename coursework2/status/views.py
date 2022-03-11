@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import *
+from .forms import *
 from accounts.models import *
 from friends.friend_request_status import *
 
@@ -25,10 +26,8 @@ def status_profile(request, *args, **kwargs):
                 context['account_statuses_list'] = account_statuses_list
             except StatusList.DoesNotExist:
                 return HttpResponse("Statuses do not exist")
-            
-            # statuses = []
-            # for status in account_statuses_list:
-            #     statuses.append(status)
-            # context['statuses'] = status
+
+            update_status_form = StatusForm()
+            context['update_status_form'] = update_status_form
 
         return render(request, 'status/status_profile.html', context)

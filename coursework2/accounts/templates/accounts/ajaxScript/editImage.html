@@ -2,6 +2,7 @@
 
 	enableImageOverlay()
 
+	// ran when a file is selected
 	function readURL(input){
 		if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -10,22 +11,12 @@
             	disableImageOverlay()
             	var image = e.target.result
             	var imageField = document.getElementById('id_profile_image_display')
+				// change the image display to the image choosen
                 imageField.src = image
             };
+			// start the function above
             reader.readAsDataURL(input.files[0]);
         }
-	}
-
-	function isImageSizeValid(image){
-		var startIndex = image.indexOf("base64,") + 7
-		var base64str = image.substr(startIndex)
-		// decode a base64 string
-		var decoded = atob(base64str)
-		// if bigger 
-		if (decoded.length >= "{{DATA_UPLOAD_MAX_MEMORY_SIZE}}"){
-			return null
-		} 
-		return base64str
 	}
 
 	function enableImageOverlay(){

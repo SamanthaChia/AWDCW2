@@ -167,7 +167,6 @@ def user_search_view(request, *args, **kwargs):
                     accounts.append((account, False))
                 context['accounts'] = accounts
 
-
     return render(request, "accounts/search.html", context)
 
 # Edit Particulars View

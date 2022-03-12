@@ -20,13 +20,13 @@
 						<div class="d-flex flex-row">
 							<img class="account-image rounded-circle m-auto d-block" id="id_profile_links" src="{{request.user.profile_image.url}}" alt="default img" width="40" height="40">
 							<a class="p-2 text-dark" href="{% url 'account:user_view' user_id=request.user.id %}">Account</a>
-							<a class="p-2 text-dark" href="{% url 'logout' %}">Logout</a>
+							<a class="p-2 text-dark" href="{% url 'account:logout' %}">Logout</a>
 						</div>
 						
 					</div>
 				{% else %}
-					<a class="p-2 text-dark" href="{% url 'login' %}">Login</a>
-					<a class="btn btn-outline-primary" href="{% url 'register' %}">Register</a>
+					<a class="p-2 text-dark" href="{% url 'account:login' %}">Login</a>
+					<a class="btn btn-outline-primary" href="{% url 'account:register' %}">Register</a>
 				{% endif %}	
 			</nav>
 		</div>
@@ -36,7 +36,7 @@
 <script type="text/javascript">
 	function executeQuery(){
 		var query = document.getElementById("id_q_large").value;
-		window.location.replace("{% url 'search' %}?q=" + query)
+		window.location.replace("{% url 'account:search' %}?q=" + query)
 		return false
 	}
 </script>

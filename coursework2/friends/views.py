@@ -19,7 +19,7 @@ def friend_requests(request, *aregs, **kwargs):
         else:
             return HttpResponse("You are only allowed to see your own friend requests")
     else:
-        redirect("login")
+        redirect("account:login")
     return render(request, "friends/friend_requests.html", context)
 
 def send_friend_request(request, *args, **kwargs):

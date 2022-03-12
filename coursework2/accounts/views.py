@@ -176,7 +176,7 @@ def edit_particulars(request, *args, **kwargs):
 
     # check if user is logged in
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("account:login")
     user_id = kwargs.get("user_id")
     try:
         account = Account.objects.get(pk=user_id)

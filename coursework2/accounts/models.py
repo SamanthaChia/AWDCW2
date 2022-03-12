@@ -66,11 +66,10 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def get_user_profile_image_filename(self):
-        return str(self.profile_image)[str(self.profile_image).index('profile_images/'+str(self.pk)+'/'):]
-
+    # all admins will have all permissions
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
+    # does current user have permission to view app
     def has_module_perms(self, app_label):
         return True

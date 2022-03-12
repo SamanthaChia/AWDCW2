@@ -36,7 +36,7 @@
 <script type="text/javascript">
 	function executeQuery(){
 		var query = document.getElementById("id_q_large").value;
-		window.location.replace("{% url 'search' %}?q=" + query)
+		window.location.replace("{% url 'account:search' %}?q=" + query)
 		return false
 	}
 </script>

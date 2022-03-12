@@ -25,7 +25,6 @@ urlpatterns = [
     path('', include('base.urls'), name="home"),
     path('account/', include('accounts.urls', namespace='account')),
     path('admin/', admin.site.urls),
-    path('search/', user_search, name="search"),
     path('friend/', include('friends.urls', namespace='friend')),
     path('chat/', include('chat.urls', namespace='chat')),
     path('status/', include('status.urls', namespace='status')),

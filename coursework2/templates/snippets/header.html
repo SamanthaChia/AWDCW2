@@ -10,7 +10,7 @@
 			{% endif %}
 		</h5>
 		<form class="search-bar justify-content-start" onsubmit="return executeQuery()">
-			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search Accounts">
+			<input type="text" class="form-control" name="q" id="id_query" placeholder="Search Accounts">
 		</form>
 
 		<div class="d-flex flex-row-reverse flex-grow-1">
@@ -35,7 +35,7 @@
 
 <script type="text/javascript">
 	function executeQuery(){
-		var query = document.getElementById("id_q_large").value;
+		var query = document.getElementById("id_query").value;
 		window.location.replace("{% url 'account:search' %}?q=" + query)
 		return false
 	}

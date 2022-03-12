@@ -6,7 +6,7 @@ from accounts.models import *
 
 import json
 
-def friend_requests(request, *aregs, **kwargs):
+def friend_requests_view(request, *aregs, **kwargs):
     context = {}
     user = request.user
     if user.is_authenticated:
@@ -22,7 +22,7 @@ def friend_requests(request, *aregs, **kwargs):
         redirect("account:login")
     return render(request, "friends/friend_requests.html", context)
 
-def send_friend_request(request, *args, **kwargs):
+def send_friend_request_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "POST" and user.is_authenticated:
@@ -62,7 +62,7 @@ def send_friend_request(request, *args, **kwargs):
     
     return HttpResponse(json.dumps(payload), content_type="application/json")
 
-def accept_friend_request(request, *args, **kwargs):
+def accept_friend_request_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "GET" and user.is_authenticated:
@@ -85,7 +85,7 @@ def accept_friend_request(request, *args, **kwargs):
         payload['response'] = "Must be authenticated to accept friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")            
 
-def remove_friend(request, *args, **kwargs):
+def remove_friend_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "POST" and user.is_authenticated:
@@ -109,7 +109,7 @@ def remove_friend(request, *args, **kwargs):
         payload['response'] = "Must be authenticated first"
     return HttpResponse(json.dumps(payload), content_type="application/json")            
 
-def decline_friend_request(request, *args, **kwargs):
+def decline_friend_request_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "GET" and user.is_authenticated:
@@ -132,7 +132,7 @@ def decline_friend_request(request, *args, **kwargs):
         payload['response'] = "Must be authenticated to decline friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")  
 
-def cancel_friend_request(request, *args, **kwargs):
+def cancel_friend_request_view(request, *args, **kwargs):
     user = request.user
     payload = {}
     if request.method == "POST" and user.is_authenticated:
@@ -162,7 +162,7 @@ def cancel_friend_request(request, *args, **kwargs):
             
     return HttpResponse(json.dumps(payload), content_type="application/json")  
 
-def friends_list(request, *args, **kwargs):
+def friends_list_view(request, *args, **kwargs):
     context = {}
     user = request.user
     if user.is_authenticated:

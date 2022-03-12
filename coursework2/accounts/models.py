@@ -66,9 +66,6 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def get_user_profile_image_filename(self):
-        return str(self.profile_image)[str(self.profile_image).index('profile_images/'+str(self.pk)+'/'):]
-
     def has_perm(self, perm, obj=None):
         return self.is_admin
 

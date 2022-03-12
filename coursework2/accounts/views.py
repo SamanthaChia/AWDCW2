@@ -187,7 +187,7 @@ def edit_particulars_view(request, *args, **kwargs):
         return HttpResponse("This is not your account, you are not allowed to edit this profile!")
     
     if request.method == "POST":
-        update_form = UpdateParticularsForm(request.POST, request.FILES, instance=request.user)
+        update_form = EditParticularsForm(request.POST, request.FILES, instance=request.user)
         if update_form.is_valid():
             #delete old profile image so keep the name
             account.profile_image.delete()
@@ -199,7 +199,7 @@ def edit_particulars_view(request, *args, **kwargs):
             else:
                 date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
 
-            update_form = UpdateParticularsForm(request.POST, instance=request.user,
+            update_form = EditParticularsForm(request.POST, instance=request.user,
                 initial={
                     "id": account.pk,
                     "email": account.email,
@@ -218,7 +218,7 @@ def edit_particulars_view(request, *args, **kwargs):
         else:
             date_time_val = datetime.datetime.strptime(str(account.date_of_birth), '%Y-%m-%d').strftime('%Y-%m-%d')
         
-        update_form = UpdateParticularsForm(
+        update_form = EditParticularsForm(
                     initial={
                         "id": account.pk,
                         "email": account.email,

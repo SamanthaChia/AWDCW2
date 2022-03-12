@@ -1,11 +1,4 @@
 <script type="text/javascript">
-    var cropper;
-	var imageFile;
-	var base64ImageString;
-	var cropX;
-	var cropY;
-	var cropWidth;
-	var cropHeight;
 
 	enableImageOverlay()
 
@@ -18,34 +11,9 @@
             	var image = e.target.result
             	var imageField = document.getElementById('id_profile_image_display')
                 imageField.src = image
-				cropper = new Cropper(imageField, {
-					aspectRatio: 1/1,
-					crop(event){
-						console.log("CROP")
-						console.log("x: " + event.detail.x)
-						console.log("y:" + event.detail.y)
-						console.log("width: " + event.detail.width)
-						console.log("height: " + event.detail.height)
-						setImageCropProperties(
-							image,
-							event.detail.x,
-							event.detail.y,
-							event.detail.width,
-							event.detail.height
-						)
-					}
-				})
             };
             reader.readAsDataURL(input.files[0]);
         }
-	}
-
-	function setImageCropProperties(image, x, y, width, height){
-		imageFile = image
-		cropX = x
-		cropY = y
-		cropWidth = width
-		cropHeight = height
 	}
 
 	function isImageSizeValid(image){
@@ -60,61 +28,22 @@
 		return base64str
 	}
 
-	function cropImage(image, x, y , width, height){
-		base64ImageString = isImageSizeValid(image)
-		if(base64ImageString == null){
-			alert("Pleae upload an image smaller than 10mb")
-			document.getElementById("id_cancel").click()
-		} else{
-			var requestData = {
-				"csrfmiddlewaretoken": "{{csrf_token}}",
-				"image": base64ImageString,
-				"cropX": cropX,
-				"cropY": cropY,
-				"cropWidth": cropWidth,
-				"cropHeight": cropHeight,
-			}
-			
-			$.ajax({
-				type: 'POST',
-				dataType: "json",
-				url: "{% url 'account:crop_image' user_id=update_form.initial.id %}",
-				data: requestData,
-				timeout:10000,
-				success: function(data){
-					if(data.result == "success"){
-						window.location.reload()
-					} else if(data.result == "error"){
-						alert(data.exception)
-						window.location.reload()
-					}
-				},
-				error: function(data){
-					console.error("ERROR" , data)
-				}
-			})
-		}
-	}
-
 	function enableImageOverlay(){
 		var text = document.getElementById("id_text")
-		text.style.backgroundColor = "#0066ff"
+		text.style.backgroundColor = "black"
 		text.style.color = "white"
-		text.style.fontSize = "16px"
-		text.style.padding = "16px 32px"
 		text.style.cursor = "pointer"
+		text.style.padding = "12px 28px"
+
 
 		var profileImg = document.getElementById("id_profile_image")
 		profileImg.style.opacity = "1"
 		profileImg.style.display = "block"
 		profileImg.style.width = "100%"
 		profileImg.style.height = "auto"
-		profileImg.style.transition = ".5s ease"
-		profileImg.style.backfaceVisibility  = "hidden"
 		profileImg.style.cursor = "pointer"
 
 		var middleContainer = document.getElementById("id_middle_container")
-		middleContainer.style.transition = ".5s ease"
 		middleContainer.style.opacity = "0"
 		middleContainer.style.position = "absolute"
 		middleContainer.style.top = "50%"
@@ -136,12 +65,6 @@
 		imageContainer.addEventListener("click", function(event){
 			document.getElementById('id_profile_image').click();
 		});
-
-		var cropConfirm = document.getElementById("id_image_crop_confirm")
-		cropConfirm.classList.remove("d-flex")
-		cropConfirm.classList.remove("flex-row")
-		cropConfirm.classList.remove("justify-content-between")
-		cropConfirm.classList.add("d-none")
 		
 	}
 
@@ -168,28 +91,10 @@
 
 		document.getElementById('id_image_container').removeEventListener("click", function(event){
 			event.preventDefault();
-			// do nothing
 		});
 		document.getElementById('id_profile_image').addEventListener("click", function(event){
 			event.preventDefault();
-			// do nothing
 		});
 
-		var cropConfirm = document.getElementById("id_image_crop_confirm")
-		cropConfirm.classList.remove("d-none")
-		cropConfirm.classList.add("d-flex")
-		cropConfirm.classList.add("flex-row")
-		cropConfirm.classList.add("justify-content-between")
-
-		var confirm = document.getElementById("id_confirm")
-		confirm.addEventListener("click", function(event){
-			cropImage(imageFile, cropX, cropY, cropWidth, cropHeight)
-		})
-
-		var cancel = document.getElementById("id_cancel")
-		cancel.addEventListener("click", function(event){
-			console.log("Reloading window...")
-			window.location.reload();
-		})
 	}
 </script>

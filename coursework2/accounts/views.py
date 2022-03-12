@@ -23,7 +23,7 @@ TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 # Create your views here.
 
 # Register View
-def user_register(request, *args, **kwargs):
+def user_register_view(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
         return HttpResponse("You are already authenticated as " + str(user.email))
@@ -45,7 +45,7 @@ def user_register(request, *args, **kwargs):
     return render(request, 'accounts/register.html', context)
 
 # Login View
-def user_login(request):
+def user_login_view(request):
     context={}
 
     if request.method == 'POST':
@@ -70,7 +70,7 @@ def user_login(request):
     return render(request, "accounts/login.html", context)
 
 # Logout view
-def user_logout(request):
+def user_logout_view(request):
     logout(request)
     return redirect("home")
 
@@ -144,7 +144,7 @@ def user_view(request, *args, **kwargs):
         return render(request, "accounts/account.html", context)
 
 # Search Friends View
-def user_search(request, *args, **kwargs):
+def user_search_view(request, *args, **kwargs):
     context = {}
 
     if request.method == 'GET':
@@ -171,7 +171,7 @@ def user_search(request, *args, **kwargs):
     return render(request, "accounts/search.html", context)
 
 # Edit Particulars View
-def edit_particulars(request, *args, **kwargs):
+def edit_particulars_view(request, *args, **kwargs):
     context = {}
 
     # check if user is logged in
@@ -257,7 +257,7 @@ def save_temp_profile_image_from_base64String(imageString, user):
         return None
 
 # called asynchronously through AJAX
-def crop_image(request, *args, **kwargs):
+def crop_image_view(request, *args, **kwargs):
     payload = {}
     user = request.user
     if request.POST and user.is_authenticated:

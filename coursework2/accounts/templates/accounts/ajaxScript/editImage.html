@@ -29,13 +29,8 @@
 	}
 
 	function enableImageOverlay(){
-		var text = document.getElementById("id_text")
-		text.style.backgroundColor = "black"
-		text.style.color = "white"
-		text.style.cursor = "pointer"
-		text.style.padding = "12px 28px"
 
-
+		// Image Box
 		var profileImg = document.getElementById("id_profile_image")
 		profileImg.style.opacity = "1"
 		profileImg.style.display = "block"
@@ -43,6 +38,7 @@
 		profileImg.style.height = "auto"
 		profileImg.style.cursor = "pointer"
 
+		// box holding edit text
 		var middleContainer = document.getElementById("id_middle_container")
 		middleContainer.style.opacity = "0"
 		middleContainer.style.position = "absolute"
@@ -51,6 +47,14 @@
 		middleContainer.style.transform = "translate(-50%, -50%)"
 		middleContainer.style.textAlign = "center"
 
+		// Edit Text
+		var text = document.getElementById("id_text")
+		text.style.backgroundColor = "black"
+		text.style.color = "white"
+		text.style.cursor = "pointer"
+		text.style.padding = "12px 28px"
+
+		// parent container holding everything the image and the edit box
 		var imageContainer = document.getElementById("id_image_container")
 		imageContainer.addEventListener("mouseover", function( event ) { 
 			profileImg.style.opacity = "0.3"

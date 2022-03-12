@@ -20,7 +20,7 @@
 						<div class="d-flex flex-row">
 							<img class="account-image rounded-circle m-auto d-block" id="id_profile_links" src="{{request.user.profile_image.url}}" alt="default img" width="40" height="40">
 							<a class="p-2 text-dark" href="{% url 'account:user_view' user_id=request.user.id %}">Account</a>
-							<a class="p-2 text-dark" href="{% url 'logout' %}">Logout</a>
+							<a class="p-2 text-dark" href="{% url 'account:logout' %}">Logout</a>
 						</div>
 						
 					</div>

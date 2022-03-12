@@ -60,7 +60,7 @@ class LoginForm(forms.ModelForm):
                 raise forms.ValidationError("Not a valid login.")
 
 # For Account Update Particulars
-class UpdateParticularsForm(forms.ModelForm):
+class EditParticularsForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = ('email', 'full_name', 'username', 'date_of_birth', 'profile_image', 'hide_email')
@@ -83,7 +83,7 @@ class UpdateParticularsForm(forms.ModelForm):
 
     def save(self, commit=True):
         # apply database but not commiting it.
-        account = super(UpdateParticularsForm, self).save(commit=False)    
+        account = super(EditParticularsForm, self).save(commit=False)    
         account.email = self.cleaned_data['email']
         account.full_name = self.cleaned_data['full_name']
         account.username = self.cleaned_data['username']

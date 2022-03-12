@@ -47,11 +47,6 @@
 		<div class="card card-border-background">
 			<div class="card-body">
 				<div class="d-flex flex-column justify-content-center p-4">
-					<!-- crop image -->
-					<div class="mb-2" id="id_image_crop_confirm">
-						<span id="id_cancel" class="material-icons">cancel</span>
-						<span id="id_confirm" class="material-icons">check</span>
-					</div>
 					<div class="image-container" id="id_image_container">
 						<img class="border border-dark rounded-circle img-fluid mx-auto profile-image" id="id_profile_image_display" src="{{update_form.initial.profile_image.url}}" alt="defaultprofile img">
 						<div class="middle" id="id_middle_container">
@@ -110,6 +105,6 @@
 	</div>
 </div>
 
-{% include 'accounts/ajaxScript/cropImage.html' %}
+{% include 'accounts/ajaxScript/editImage.html' %}
 
 {% endblock content %}

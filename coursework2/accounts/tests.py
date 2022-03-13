@@ -16,3 +16,10 @@ class AccountTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'test@gmail.com', response.content)
+
+    # able to go into register page
+    def test_registerPage(self):
+        url=reverse('account:register')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Quick and easy', response.content)

@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from .views import *
 
 app_name = "status"
 
 urlpatterns = [
-    path('', views.timeline, name="timeline"),
-    path('<user_id>/', views.status_profile, name="status-profile"),
+    path('', timeline_view, name="timeline"),
+    path('<user_id>/', status_profile_view, name="status-profile"),
 ]

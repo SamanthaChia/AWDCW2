@@ -9,7 +9,7 @@ from accounts.models import *
 from friends.models import *
 
 # Create your views here.
-def timeline(request, *args, **kwargs):
+def timeline_view(request, *args, **kwargs):
     context={}
     all_statuses_list = []
 
@@ -62,7 +62,7 @@ def timeline(request, *args, **kwargs):
     return render(request, 'status/home_timeline.html', context)
 
 
-def status_profile(request, *args, **kwargs):
+def status_profile_view(request, *args, **kwargs):
     context = {}
     is_self = True
     user = request.user

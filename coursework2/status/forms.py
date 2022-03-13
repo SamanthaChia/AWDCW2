@@ -3,7 +3,7 @@ from .models import *
 
 class StatusForm(forms.ModelForm):
     textUpdate = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "What's happening today?",

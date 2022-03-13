@@ -1,8 +1,6 @@
 import json
-from django.test import TestCase
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
-from rest_framework.test import APIRequestFactory
 from rest_framework.test import APITestCase
 
 from .model_factories import *

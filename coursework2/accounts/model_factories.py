@@ -9,10 +9,12 @@ from .models import *
 fake = faker.Faker()
 
 class AccountFactory(factory.django.DjangoModelFactory):
-    email = faker.ascii_email()
+    email = 'test@gmail.com'
     username = "test"
-    full_name = fake.name()
-    date_of_birth = faker.date()
+    full_name = 'test account'
+    date_of_birth = fake.date()
+    hide_email = False
+    
 
     class Meta:
         model = Account

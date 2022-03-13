@@ -26,8 +26,10 @@ class FriendsList(models.Model):
     # action to remove friend
     def unfriend(self, account):
         user_friend_list = self
+        # remove friend from initiator friend list
         user_friend_list.remove_friend(account)
         friends_list = FriendsList.objects.get(user=account)
+        # remove initiator from friends' friend list
         friends_list.remove_friend(self.user)
 
     def check_mutual_friends(self, friend):

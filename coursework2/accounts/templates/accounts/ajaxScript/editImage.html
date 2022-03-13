@@ -2,6 +2,7 @@
 
 	enableImageOverlay()
 
+	// ran when a file is selected
 	function readURL(input){
 		if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -10,32 +11,17 @@
             	disableImageOverlay()
             	var image = e.target.result
             	var imageField = document.getElementById('id_profile_image_display')
+				// change the image display to the image choosen
                 imageField.src = image
             };
+			// start the function above
             reader.readAsDataURL(input.files[0]);
         }
 	}
 
-	function isImageSizeValid(image){
-		var startIndex = image.indexOf("base64,") + 7
-		var base64str = image.substr(startIndex)
-		// decode a base64 string
-		var decoded = atob(base64str)
-		// if bigger 
-		if (decoded.length >= "{{DATA_UPLOAD_MAX_MEMORY_SIZE}}"){
-			return null
-		} 
-		return base64str
-	}
-
 	function enableImageOverlay(){
-		var text = document.getElementById("id_text")
-		text.style.backgroundColor = "black"
-		text.style.color = "white"
-		text.style.cursor = "pointer"
-		text.style.padding = "12px 28px"
 
-
+		// Image Box
 		var profileImg = document.getElementById("id_profile_image")
 		profileImg.style.opacity = "1"
 		profileImg.style.display = "block"
@@ -43,6 +29,7 @@
 		profileImg.style.height = "auto"
 		profileImg.style.cursor = "pointer"
 
+		// box holding edit text
 		var middleContainer = document.getElementById("id_middle_container")
 		middleContainer.style.opacity = "0"
 		middleContainer.style.position = "absolute"
@@ -51,6 +38,14 @@
 		middleContainer.style.transform = "translate(-50%, -50%)"
 		middleContainer.style.textAlign = "center"
 
+		// Edit Text
+		var text = document.getElementById("id_text")
+		text.style.backgroundColor = "black"
+		text.style.color = "white"
+		text.style.cursor = "pointer"
+		text.style.padding = "12px 28px"
+
+		// parent container holding everything the image and the edit box
 		var imageContainer = document.getElementById("id_image_container")
 		imageContainer.addEventListener("mouseover", function( event ) { 
 			profileImg.style.opacity = "0.3"

@@ -102,7 +102,6 @@ def user_view(request, *args, **kwargs):
         friends = friends_list.friends.all()
         context['friends'] = friends
 
-
         # Template vars
         is_self = True
         is_friend = False
@@ -231,7 +230,6 @@ def edit_particulars_view(request, *args, **kwargs):
         )
 
         context['update_form'] = update_form
-    context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
     return render(request, "accounts/update_particulars.html", context)
 
 def save_temp_profile_image_from_base64String(imageString, user):
